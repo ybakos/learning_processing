@@ -6,44 +6,35 @@
 
 // Ten lines.
 
-size(200, 200);
-background(230);
-stroke(200, 100, 100);
-strokeWeight(5);
-line(0, 0, 0, 200);
+void setup() {
+  size(255, 255);
 
-stroke(200, 100, 100);
-strokeWeight(5);
-line(20, 0, 20, 200);
+  stroke(200, 100, 100);
+  strokeWeight(5);
+}
 
-stroke(200, 100, 100);
-strokeWeight(5);
-line(40, 0, 40, 200);
+void draw() {
+  background(230);
+  line(mouseX + 0, 0, mouseX + 0, 255);
+  line(mouseX + 20, 0, mouseX + 20, 255);
+  line(mouseX + 40, 0, mouseX + 40, 255);
+  line(mouseX + 60, 0, mouseX + 60, 255);
+  line(mouseX + 80, 0, mouseX + 80, 255);
+  line(mouseX + 100, 0, mouseX + 100, 255);
+  line(mouseX + 110, 0, mouseX + 110, 255);
+  line(mouseX + 120, 0, mouseX + 120, 255);
+  line(mouseX + 160, 0, mouseX + 160, 255);
+  line(mouseX + 180, 0, mouseX + 180, 255);
+}
 
-stroke(200, 100, 100);
-strokeWeight(5);
-line(60, 0, 60, 200);
+void mouseClicked() {
+  stroke(mouseX, mouseX + mouseY, mouseY);
+}
 
-stroke(200, 100, 100);
-strokeWeight(5);
-line(80, 0, 80, 200);
+void keyPressed() {
+  strokeWeight(key / 8);
+}
 
-stroke(200, 100, 100);
-strokeWeight(5);
-line(100, 0, 100, 200);
-
-stroke(200, 100, 100);
-strokeWeight(5);
-line(110, 0, 110, 200);
-
-stroke(200, 100, 100);
-strokeWeight(5);
-line(120, 0, 120, 200);
-
-stroke(200, 100, 100);
-strokeWeight(5);
-line(160, 0, 160, 200);
-
-stroke(200, 100, 100);
-strokeWeight(5);
-line(180, 0, 180, 200);
+void keyReleased() {
+  strokeWeight(5);
+}
