@@ -15,11 +15,8 @@ void setup() {
 
 void draw() {
   background(230);
-  line(mouseX + 0, 0, mouseX + 0, 255);
-  line(mouseX + 20, 0, mouseX + 20, 255);
-  line(mouseX + 40, 0, mouseX + 40, 255);
-  line(mouseX + 60, 0, mouseX + 60, 255);
-  line(mouseX + 80, 0, mouseX + 80, 255);
+  for (int i = 0; i < 100; i += 20)
+    line(mouseX + i, 0, mouseX + i, 255);
   line(mouseX + 100, 0, mouseX + 100, 255);
   line(mouseX + 110, 0, mouseX + 110, 255);
   line(mouseX + 120, 0, mouseX + 120, 255);
