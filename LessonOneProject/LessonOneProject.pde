@@ -15,6 +15,7 @@ void setup() {
 
 void draw() {
   background(230);
+  stroke(mouseY, mouseX + mouseY, mouseX);
   for (int i = 0; i < 100; i += 20)
     line(mouseX + i, 0, mouseX + i, 255);
   line(mouseX + 100, 0, mouseX + 100, 255);
