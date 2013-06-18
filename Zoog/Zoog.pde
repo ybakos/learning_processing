@@ -1,4 +1,4 @@
-// Learning Processing Ex. 3-2
+// Learning Processing Ex. 3-5
 
 void setup() {
   println("Thanks, Shiffman.");
@@ -6,10 +6,10 @@ void setup() {
 }
 
 void draw() {
-  fill(100);
-  ellipse(200, 200, 100, 100);
-  fill(50);
-  ellipse(180, 180, 20, 20);
-  ellipse(220, 180, 20, 20);
-  arc(200, 210, 80, 60, 0, PI);
+  fill(mouseX + 100);
+  ellipse(mouseX, mouseY, 100, 100);
+  fill(mouseY + 50);
+  ellipse(mouseX - 20, mouseY - 20, 20, 20);
+  ellipse(mouseX + 20, mouseY - 20, 20, 20);
+  arc(mouseX, mouseY + 10, 80, 60, 0, PI);
 }
