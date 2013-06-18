@@ -11,10 +11,11 @@ void setup() {
 
   stroke(200, 100, 100);
   strokeWeight(5);
+  background(230);
 }
 
 void draw() {
-  background(230);
+
   stroke(mouseY, abs(mouseX - mouseY), mouseX);
   for (int i = 0; i < 100; i += 20)
     line(mouseX + i, 0, mouseX + i, 255);
@@ -26,7 +27,7 @@ void draw() {
 }
 
 void mouseClicked() {
-  stroke(mouseX, mouseX + mouseY, mouseY);
+  background(230);
 }
 
 void keyPressed() {
