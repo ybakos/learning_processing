@@ -1,5 +1,3 @@
-// Learning Processing Example 4-3
-
 int circleSize = 0;
 int circleX = 100;
 int circleY = 100;
