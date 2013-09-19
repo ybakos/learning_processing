@@ -1,4 +1,7 @@
+// Exercise 4-3. Growing circle.
+
 int circleSize = 0;
+int growthRate = 5;
 int circleX = 100;
 int circleY = 100;
 
@@ -10,6 +13,6 @@ void draw() {
   background(0);
   stroke(255);
   fill(175);
-  ellipse(circleX, circleY, 50, 50);
-  circleX++;
+  ellipse(mouseX, mouseY, circleSize, circleSize);
+  circleSize += growthRate;
 }
