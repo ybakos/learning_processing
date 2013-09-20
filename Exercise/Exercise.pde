@@ -1,19 +1,16 @@
-// Exercise 4-4a. Reproducing images and using variables.
+// Exercise 4-4b. Reproducing images and using variables.
 
-int backgroundColor = 255;
+int startX = 100;
+int startY = 100;
+int line01EndX = 100;
+int line01EndY = 0;
+int line02EndX = 0;
+int line02EndY = 200;
+int line03EndX = 200;
+int line03EndY = 200;
+
+int backgroundColor = 225;
 int strokeColor = 0;
-int fillColor = 100;
-
-final int DIAMETER = 50;
-
-int upperLeftX = 50;
-int upperLeftY = 50;
-int upperRightX = 150;
-int upperRightY = 50;
-int lowerLeftX = 50;
-int lowerLeftY = 150;
-int lowerRightX = 150;
-int lowerRightY = 150;
 
 void setup() {
   size(200, 200);
@@ -22,15 +19,16 @@ void setup() {
 void draw() {
   background(backgroundColor);
   stroke(strokeColor);
-  fill(fillColor);
-  ellipse(upperLeftX, upperLeftY, DIAMETER, DIAMETER);
-  ellipse(upperRightX, upperRightY, DIAMETER, DIAMETER);
-  ellipse(lowerLeftX, lowerLeftY, DIAMETER, DIAMETER);
-  ellipse(lowerRightX, lowerRightY, DIAMETER, DIAMETER);
-
-  fillColor += 10;
-  lowerLeftX = lowerLeftX + 5;
-  lowerRightY = lowerRightY - 5;
-  upperRightX = upperRightX - 5;
-  upperLeftY = upperLeftY + 5;
+  line(startX, startY, line01EndX, line01EndY);
+  line(startX, startY, line02EndX, line02EndY);
+  line(startX, startY, line03EndX, line03EndY);
+  ++startX;
+  --startY;
+  --line01EndX;
+  ++line01EndY;
+  --line02EndX;
+  --line02EndY;
+  --line03EndX;
+  --line03EndY;
+  strokeColor += 1;
 }
