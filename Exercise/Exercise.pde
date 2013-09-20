@@ -1,16 +1,12 @@
-// Exercise 4-4b. Reproducing images and using variables.
+// Exercise 4-4c. Reproducing images and using variables.
 
-int startX = 100;
-int startY = 100;
-int line01EndX = 100;
-int line01EndY = 0;
-int line02EndX = 0;
-int line02EndY = 200;
-int line03EndX = 200;
-int line03EndY = 200;
+int circleDiameter = 50;
+int centerX = 100;
+int centerY = 100;
 
-int backgroundColor = 225;
+int backgroundColor = 100;
 int strokeColor = 0;
+int fillColor = 255;
 
 void setup() {
   size(200, 200);
@@ -19,16 +15,12 @@ void setup() {
 void draw() {
   background(backgroundColor);
   stroke(strokeColor);
-  line(startX, startY, line01EndX, line01EndY);
-  line(startX, startY, line02EndX, line02EndY);
-  line(startX, startY, line03EndX, line03EndY);
-  ++startX;
-  --startY;
-  --line01EndX;
-  ++line01EndY;
-  --line02EndX;
-  --line02EndY;
-  --line03EndX;
-  --line03EndY;
-  strokeColor += 1;
+  fill(fillColor);
+  ellipse(centerX, centerY, circleDiameter, circleDiameter);
+  ++centerX;
+  --centerY;
+  --circleDiameter;
+  ++strokeColor;
+  --fillColor;
+  --backgroundColor;
 }
