@@ -1,26 +1,16 @@
-// Exercise 4-4c. Reproducing images and using variables.
-
-int circleDiameter = 50;
-int centerX = 100;
-int centerY = 100;
-
-int backgroundColor = 100;
-int strokeColor = 0;
-int fillColor = 255;
+// Exercise 4-5. Sketch relative to width and height.
 
 void setup() {
-  size(200, 200);
+  size(200, 400);
+  background(255);
+  rectMode(CENTER);
 }
 
 void draw() {
-  background(backgroundColor);
-  stroke(strokeColor);
-  fill(fillColor);
-  ellipse(centerX, centerY, circleDiameter, circleDiameter);
-  ++centerX;
-  --centerY;
-  --circleDiameter;
-  ++strokeColor;
-  --fillColor;
-  --backgroundColor;
+  line(0, 0, width, height);
+  line(0, height, width, 0);
+  fill(100);
+  rect(width / 10, height / 2, width / 10, height / 10);
+  rect(width - width / 10, height / 2, width / 10, height / 10);
+  ellipse(width / 2, height / 2, width / 3, height / 3);
 }
