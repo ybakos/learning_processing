@@ -1,6 +1,4 @@
-// Exercise 4-4a. Reproducing images and using variables.
-
-final int DIAMETER = 50;
+// Exercise 4-4b. Reproducing images and using variables.
 
 void setup() {
   size(200, 200);
@@ -8,10 +6,8 @@ void setup() {
 
 void draw() {
   background(0);
-  stroke(0);
-  fill(100);
-  ellipse(width * 0.25, height * 0.25, DIAMETER, DIAMETER);
-  ellipse(width * 0.75, height * 0.25, DIAMETER, DIAMETER);
-  ellipse(width * 0.25, height * 0.75, DIAMETER, DIAMETER);
-  ellipse(width * 0.75, height * 0.75, DIAMETER, DIAMETER);
+  stroke(255);
+  line(width / 2, height / 2, width / 2, 0);
+  line(width / 2, height / 2, 0, height);
+  line(width / 2, height / 2, width, height);
 }
