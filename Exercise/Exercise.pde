@@ -1,9 +1,6 @@
-// Exercise 4-3. Growing circle.
+// Exercise 4-4a. Reproducing images and using variables.
 
-int circleSize = 0;
-int growthRate = 5;
-int circleX = 100;
-int circleY = 100;
+final int DIAMETER = 50;
 
 void setup() {
   size(200, 200);
@@ -11,8 +8,10 @@ void setup() {
 
 void draw() {
   background(0);
-  stroke(255);
-  fill(175);
-  ellipse(mouseX, mouseY, circleSize, circleSize);
-  circleSize += growthRate;
+  stroke(0);
+  fill(100);
+  ellipse(width * 0.25, height * 0.25, DIAMETER, DIAMETER);
+  ellipse(width * 0.75, height * 0.25, DIAMETER, DIAMETER);
+  ellipse(width * 0.25, height * 0.75, DIAMETER, DIAMETER);
+  ellipse(width * 0.75, height * 0.75, DIAMETER, DIAMETER);
 }
