@@ -1,32 +1,22 @@
-// Exercise 5-7. Demonstrating how mousePressed can be in a state that spans multiple draw calls.
+// Exercise 5-8. Revising Example 4-3 to set a ball in motion once the mouse is pressed.
 
-boolean button = false;
-int x = 50;
-int y = 50;
-int w = 100;
-int h = 75;
+boolean move = false;
+
+int circleX = 0;
+int circleY = 100;
 
 void setup() {
-  size(200, 200);
+  size(400, 200);
 }
 
 void draw() {
-  if (mouseX > x && mouseY < x + w && mouseY > y && mouseY < y + h && mousePressed) {
-    button = !button;
-  }
-  if (button) {
-    background(255);
-    stroke(0);
-  } else {
-    background(0);
-    stroke(255);
-  }
-  fill(175);
-  rect(x, y, w, h);
+  background(100);
+  stroke(255);
+  fill(0);
+  ellipse(circleX, circleY, 50, 50);
+  if (move) circleX = constrain(++circleX, 0, width);
 }
 
-// void mousePressed() {
-//   if (mouseX > x && mouseY < x + w && mouseY > y && mouseY < y + h && mousePressed) {
-//     button = !button;
-//   }
-// }
+void mousePressed() {
+  move = !move;
+}
