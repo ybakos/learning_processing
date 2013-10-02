@@ -1,22 +1,32 @@
-// Exercise 5-8. Revising Example 4-3 to set a ball in motion once the mouse is pressed.
+// Exercise 5-9. A more interesting bouncing ball.
 
-boolean move = false;
-
-int circleX = 0;
-int circleY = 100;
+int x = 0;
+int y = 50;
+float horizontalSpeed = 1;
+float verticalSpeed = 1;
+int horizontalDirection = 1;
+int verticalDirection = 1;
+int diameter = 32;
 
 void setup() {
-  size(400, 200);
+  size(400, 400);
 }
 
 void draw() {
-  background(100);
-  stroke(255);
-  fill(0);
-  ellipse(circleX, circleY, 50, 50);
-  if (move) circleX = constrain(++circleX, 0, width);
-}
+  background(255);
+  if (x >= width || x < 0) {
+    horizontalDirection *= -1;
+    ++diameter;
+    ++horizontalSpeed;
+  }
+  if (y >= height || y < 0) {
+    verticalSpeed *= -1;
+  }
+  x += horizontalSpeed * horizontalDirection;
+  y += verticalSpeed * verticalDirection;
 
-void mousePressed() {
-  move = !move;
+  stroke(0);
+  fill(175);
+  ellipse(x, y, diameter, diameter);
+  println(horizontalSpeed);
 }
