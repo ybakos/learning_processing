@@ -1,43 +1,25 @@
-// Learning Processing Example 5-8
+// Learning Processing Example 5-9
 
-int x = 0;
-int y = 0;
-int speed = 5;
-int state = 0;
+float x = 100;
+float y = 0;
+
+float speed = 0;
+float gravity = 0.1;
 
 void setup() {
   size(400, 400);
 }
 
 void draw() {
-  background(100);
+  background(255);
+  fill(0);
   noStroke();
-  fill(200);
+  rectMode(CENTER);
   rect(x, y, 10, 10);
-  if (state == 0) {
-    x = x + speed;
-    if (x > width - 10) {
-      x = width - 10;
-      state = 1;
-    }
-  } else if (state == 1) {
-    y = y + speed;
-    if (y > height - 10) {
-      y = height - 10;
-      state = 2;
-    }
-  } else if (state == 2) {
-    x = x - speed;
-    if (x < 0) {
-      x = 0;
-      state = 3;
-    }
-  } else if (state == 3) {
-    y = y - speed;
-    if (y < 0) {
-      y = 0;
-      state = 0;
-    }
+  y = y + speed;
+  speed = speed + gravity;
+
+  if (y > height) {
+    speed = speed * -0.95;
   }
-  println(state);
 }
