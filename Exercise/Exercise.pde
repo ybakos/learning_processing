@@ -1,32 +1,26 @@
-// Exercise 5-9. A more interesting bouncing ball.
+// Exercise 5-10. A bouncing ball with gravity.
 
-int x = 0;
-int y = 50;
-float horizontalSpeed = 1;
-float verticalSpeed = 1;
-int horizontalDirection = 1;
-int verticalDirection = 1;
-int diameter = 32;
+final float DAMPENING = -0.7;
+
+float x = 100;
+float y = 0;
+
+float speed = 0;
+float gravity = 0.1;
 
 void setup() {
-  size(400, 400);
+  size(400, 800);
 }
 
 void draw() {
   background(255);
-  if (x >= width || x < 0) {
-    horizontalDirection *= -1;
-    ++diameter;
-    ++horizontalSpeed;
-  }
-  if (y >= height || y < 0) {
-    verticalSpeed *= -1;
-  }
-  x += horizontalSpeed * horizontalDirection;
-  y += verticalSpeed * verticalDirection;
+  fill(0);
+  noStroke();
+  rectMode(CENTER);
+  rect(x, y, 10, 10);
+  y = constrain(y + speed, 0, height - 10);
+  speed = speed + gravity;
 
-  stroke(0);
-  fill(175);
-  ellipse(x, y, diameter, diameter);
-  println(horizontalSpeed);
+  if (y >= height - 10) speed *= DAMPENING;
+  println(speed + " " + y);
 }
