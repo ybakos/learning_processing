@@ -1,30 +1,43 @@
-// Learning Processing Example 5-7
+// Learning Processing Example 5-8
 
-float c1 = 0;
-float c2 = 255;
-
-float c1dir = 0.1;
-float c2dir = -0.1;
+int x = 0;
+int y = 0;
+int speed = 5;
+int state = 0;
 
 void setup() {
-  size(200, 200);
+  size(400, 400);
 }
 
 void draw() {
+  background(100);
   noStroke();
-  fill(c1, 0, c2);
-  rect(0, 0, 100, 200);
-
-  fill(c2, 0, c1);
-  rect(100, 0, 100, 200);
-
-  c1 += c1dir;
-  c2 += c2dir;
-
-  if (c1 < 0 || c1 > 255) {
-    c1dir *= -1;
+  fill(200);
+  rect(x, y, 10, 10);
+  if (state == 0) {
+    x = x + speed;
+    if (x > width - 10) {
+      x = width - 10;
+      state = 1;
+    }
+  } else if (state == 1) {
+    y = y + speed;
+    if (y > height - 10) {
+      y = height - 10;
+      state = 2;
+    }
+  } else if (state == 2) {
+    x = x - speed;
+    if (x < 0) {
+      x = 0;
+      state = 3;
+    }
+  } else if (state == 3) {
+    y = y - speed;
+    if (y < 0) {
+      y = 0;
+      state = 0;
+    }
   }
-  if (c2 < 0 || c2 > 255) {
-    c2dir *= -1;
-  }
+  println(state);
 }
