@@ -1,32 +1,17 @@
-// Exercise 5-9. A more interesting bouncing ball.
+// Exercise 8-5. A bouncing ball, refactoring Example 5-9 with a class.
 
-int x = 0;
-int y = 50;
-float horizontalSpeed = 1;
-float verticalSpeed = 1;
-int horizontalDirection = 1;
-int verticalDirection = 1;
-int diameter = 32;
+Ball ball;
+
+final float GRAVITY = 0.1;
 
 void setup() {
   size(400, 400);
+  ball = new Ball(100, 0, 0);
 }
 
 void draw() {
   background(255);
-  if (x >= width || x < 0) {
-    horizontalDirection *= -1;
-    ++diameter;
-    ++horizontalSpeed;
-  }
-  if (y >= height || y < 0) {
-    verticalSpeed *= -1;
-  }
-  x += horizontalSpeed * horizontalDirection;
-  y += verticalSpeed * verticalDirection;
-
-  stroke(0);
-  fill(175);
-  ellipse(x, y, diameter, diameter);
-  println(horizontalSpeed);
+  ball.move();
+  ball.draw();
+  if (ball.onGround()) ball.bounce();
 }
