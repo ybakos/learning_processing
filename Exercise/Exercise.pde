@@ -1,21 +1,17 @@
-// Exercise 6-8. A grid of squares.
+// Exercise 8-5. A bouncing ball, refactoring Example 5-9 with a class.
 
-final int WINDOW_SIZE = 400;
-final int NUMBER_OF_SQUARES = 40;
-final int SQUARE_SIZE = WINDOW_SIZE / NUMBER_OF_SQUARES;
+Ball ball;
+
+final float GRAVITY = 0.1;
 
 void setup() {
-  size(WINDOW_SIZE, WINDOW_SIZE);
-  noStroke();
+  size(400, 400);
+  ball = new Ball(100, 0, 0);
 }
 
 void draw() {
-  for(int i = 0; i < NUMBER_OF_SQUARES; ++i) {
-    for (int j = 0; j < NUMBER_OF_SQUARES; ++j) {
-      float xDistance = abs(mouseX - i * SQUARE_SIZE);
-      float yDistance = abs(mouseY - j * SQUARE_SIZE);
-      fill(xDistance, yDistance, 200);
-      rect(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-    }
-  }
+  background(255);
+  ball.move();
+  ball.draw();
+  if (ball.onGround()) ball.bounce();
 }
