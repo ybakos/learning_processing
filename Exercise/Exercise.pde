@@ -1,17 +1,13 @@
-// Exercise 8-5. A bouncing ball, refactoring Example 5-9 with a class.
+// Exercise 9-7. A refactoring of Example 9-8, creating a snake object that leaves a trail.
 
-Ball ball;
-
-final float GRAVITY = 0.1;
+Snake snake = new Snake();
 
 void setup() {
   size(400, 400);
-  ball = new Ball(100, 0, 0);
 }
 
 void draw() {
-  background(255);
-  ball.move();
-  ball.draw();
-  if (ball.onGround()) ball.bounce();
+  background(200);
+  snake.move(mouseX, mouseY);
+  snake.draw();
 }
