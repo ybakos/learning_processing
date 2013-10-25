@@ -1,29 +1,24 @@
-// Learning Processing Example 9-9.
+// Learning Processing Example 9-11.
 
-final int NUMBER_OF_CARS = 100;
+final float GRAVITY = 0.1;
 
-Car[] cars = new Car[NUMBER_OF_CARS];
+Ball[] balls = new Ball[1];
 
 void setup() {
-  size(200, 200);
-  generateTraffic();
+  size(400, 400);
+  balls[0] = new Ball(50, 0, 16);
 }
 
 void draw() {
-  background(200);
-  drawTraffic();
-}
-
-void generateTraffic() {
-  for (int i = 0; i < NUMBER_OF_CARS; ++i) {
-    cars[i] = new Car(color(i * 2), 0, i * 2, i / 20.0);
+  background(100);
+  for (int i = 0; i < balls.length; ++i) {
+    balls[i].gravity();
+    balls[i].move();
+    balls[i].display();
   }
 }
 
-void drawTraffic() {
-  for (int i = 0; i < NUMBER_OF_CARS; ++i) {
-    cars[i].move();
-    cars[i].display();
-  }
-
+void mousePressed() {
+  Ball b = new Ball(mouseX, mouseY, 10);
+  balls = (Ball[])append(balls, b);
 }
