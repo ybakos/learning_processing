@@ -1,41 +1,29 @@
-// Learning Processing Example 9-8.
+// Learning Processing Example 9-9.
 
-final int TRAIL_LENGTH = 50;
+final int NUMBER_OF_CARS = 100;
 
-int[] xpos = new int[TRAIL_LENGTH];
-int[] ypos = new int[TRAIL_LENGTH];
+Car[] cars = new Car[NUMBER_OF_CARS];
 
 void setup() {
-  size(400, 400);
-  initializeTrail();
+  size(200, 200);
+  generateTraffic();
 }
 
 void draw() {
   background(200);
-  shiftExistingPositions();
-  saveLatestPosition();
-  for (int i = 0; i < TRAIL_LENGTH; ++i) {
-    noStroke();
-    fill(255 - i * 5);
-    ellipse(xpos[i], ypos[i], i, i);
+  drawTraffic();
+}
+
+void generateTraffic() {
+  for (int i = 0; i < NUMBER_OF_CARS; ++i) {
+    cars[i] = new Car(color(i * 2), 0, i * 2, i / 20.0);
   }
 }
 
-void initializeTrail() {
-  for (int i = 0; i < TRAIL_LENGTH; ++i) {
-    xpos[i] = 0;
-    ypos[i] = 0;
+void drawTraffic() {
+  for (int i = 0; i < NUMBER_OF_CARS; ++i) {
+    cars[i].move();
+    cars[i].display();
   }
-}
 
-void shiftExistingPositions() {
-  for (int i = 0; i < TRAIL_LENGTH - 1; ++i) {
-    xpos[i] = xpos[i + 1];
-    ypos[i] = ypos[i + 1];
-  }
-}
-
-void saveLatestPosition() {
-  xpos[TRAIL_LENGTH - 1] = mouseX;
-  ypos[TRAIL_LENGTH - 1] = mouseY;
 }
