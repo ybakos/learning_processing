@@ -1,25 +1,41 @@
-// Learning Processing Example 7-4
+// Learning Processing Example 9-8.
+
+final int TRAIL_LENGTH = 50;
+
+int[] xpos = new int[TRAIL_LENGTH];
+int[] ypos = new int[TRAIL_LENGTH];
 
 void setup() {
-  size(200, 200);
+  size(400, 400);
+  initializeTrail();
 }
 
 void draw() {
-  background(0);
-  stroke(0);
-  fill(distance(0, 0, mouseX, mouseY));
-  rect(0, 0, width / 2 - 1, height / 2 - 1);
-  fill(distance(width, 0, mouseX, mouseY));
-  rect(width / 2, 0, width / 2 - 1, height / 2 - 1);
-  fill(distance(0, height, mouseX, mouseY));
-  rect(0, height / 2, width / 2 - 1, height / 2 - 1);
-  fill(distance(width, height, mouseX, mouseY));
-  rect(width / 2, height / 2, width / 2 - 1, height / 2 - 1);
+  background(200);
+  shiftExistingPositions();
+  saveLatestPosition();
+  for (int i = 0; i < TRAIL_LENGTH; ++i) {
+    noStroke();
+    fill(255 - i * 5);
+    ellipse(xpos[i], ypos[i], i, i);
+  }
 }
 
-// Pythagoras to the rescue!
-float distance(float x1, float x2, float y1, float y2) {
-  float dx = x1 - x2;
-  float dy = y1 - y2;
-  return sqrt(dx * dx + dy * dy);
+void initializeTrail() {
+  for (int i = 0; i < TRAIL_LENGTH; ++i) {
+    xpos[i] = 0;
+    ypos[i] = 0;
+  }
+}
+
+void shiftExistingPositions() {
+  for (int i = 0; i < TRAIL_LENGTH - 1; ++i) {
+    xpos[i] = xpos[i + 1];
+    ypos[i] = ypos[i + 1];
+  }
+}
+
+void saveLatestPosition() {
+  xpos[TRAIL_LENGTH - 1] = mouseX;
+  ypos[TRAIL_LENGTH - 1] = mouseY;
 }
