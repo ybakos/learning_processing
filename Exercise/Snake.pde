@@ -3,44 +3,40 @@
 public class Snake {
 
   public static final int TRAIL_LENGTH = 50;
-  int[] xpos;
-  int[] ypos;
+  Point[] bodySegments;
 
   public Snake() {
-    xpos = new int[TRAIL_LENGTH];
-    ypos = new int[TRAIL_LENGTH];
-    initializeTrail();
+    bodySegments = new Point[TRAIL_LENGTH];
+    initializeBodySegments();
   }
 
-  public void saveLatestPosition(int newX, int newY) {
-    xpos[TRAIL_LENGTH - 1] = newX;
-    ypos[TRAIL_LENGTH - 1] = newY;
+  public void saveLatestPosition(Point position) {
+    bodySegments[TRAIL_LENGTH - 1] = position;
+
   }
 
   public void draw() {
     for (int i = 0; i < TRAIL_LENGTH; ++i) {
       noStroke();
       fill(255 - i * 5);
-      ellipse(xpos[i], ypos[i], i, i);
+      ellipse(bodySegments[i].x, bodySegments[i].y, i, i);
     }
   }
 
-  private void initializeTrail() {
+  private void initializeBodySegments() {
     for (int i = 0; i < TRAIL_LENGTH; ++i) {
-      xpos[i] = 0;
-      ypos[i] = 0;
+      bodySegments[i] = new Point(0, 0);
     }
   }
 
-  private void move(int newX, int newY) {
+  private void move(Point location) {
     shiftExistingPositions();
-    saveLatestPosition(newX, newY);
+    saveLatestPosition(location);
   }
 
   private void shiftExistingPositions() {
     for (int i = 0; i < TRAIL_LENGTH - 1; ++i) {
-      xpos[i] = xpos[i + 1];
-      ypos[i] = ypos[i + 1];
+      bodySegments[i] = bodySegments[i + 1];
     }
   }
 

@@ -8,6 +8,6 @@ void setup() {
 
 void draw() {
   background(200);
-  snake.move(mouseX, mouseY);
+  snake.move(new Point(mouseX, mouseY));
   snake.draw();
 }
