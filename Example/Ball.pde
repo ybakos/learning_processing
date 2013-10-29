@@ -7,6 +7,7 @@ class Ball {
   float y;
   float xspeed;
   float yspeed;
+  color c;
 
   Ball(float r) {
     this.r = r;
@@ -14,6 +15,7 @@ class Ball {
     y = random(height);
     xspeed = random(MIN_SPEED, MAX_SPEED);
     yspeed = random(MIN_SPEED, MAX_SPEED);
+    c = color(100, 50);
   }
 
   void move() {
@@ -29,12 +31,21 @@ class Ball {
 
   void draw() {
     stroke(255);
-    fill(100, 50);
+    fill(c);
     ellipse(x, y, diameter(), diameter());
+    c = color(100, 50);
   }
 
   float diameter() {
     return 2 * r;
+  }
+
+  boolean intersect(Ball other) {
+    return dist(x, y, other.x, other.y) < r + other.r;
+  }
+
+  void highlight() {
+    c = color(0, 150);
   }
 
 }

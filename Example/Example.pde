@@ -10,9 +10,13 @@ void setup() {
 }
 
 void draw() {
-  background(0);
+  background(200);
   ball1.move();
   ball2.move();
+  if (ball1.intersect(ball2)) {
+    ball1.highlight();
+    ball2.highlight();
+  }
   ball1.draw();
   ball2.draw();
 }
