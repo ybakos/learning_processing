@@ -1,8 +1,11 @@
 // Learning Processing Example 10, "Rain Game."
 
+final int NUMBER_OF_DROPS = 50;
 Timer timer;
 Ball ball1;
 Ball ball2;
+Drop[] drops = new Drop[NUMBER_OF_DROPS];
+
 
 void setup() {
   size(400, 400);
@@ -10,6 +13,9 @@ void setup() {
   timer.start();
   ball1 = new Ball(64);
   ball2 = new Ball(32);
+  for (int i = 0; i < NUMBER_OF_DROPS; ++i) {
+    drops[i] = new Drop();
+  }
 }
 
 void draw() {
@@ -27,4 +33,8 @@ void draw() {
   }
   ball1.draw();
   ball2.draw();
+  for (int i = 0; i < NUMBER_OF_DROPS; ++i) {
+    drops[i].move();
+    drops[i].draw();
+  }
 }
