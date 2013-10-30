@@ -21,10 +21,14 @@ class Catcher {
     this.y = y;
   }
 
-  void display() {
+  void draw() {
     stroke(0);
     fill(175);
     ellipse(x, y, r * 2, r * 2);
+  }
+
+  boolean intersect(Drop drop) {
+    return dist(x, y, drop.x, drop.y) < r + drop.r;
   }
 
 }

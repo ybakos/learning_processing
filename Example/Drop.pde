@@ -23,13 +23,17 @@ class Drop {
     return (y > height + r * 4);
   }
 
+  void caught() {
+    speed = 0;
+    y = -1000;
+  }
+
   void draw() {
     fill(c);
     noStroke();
     for (int i = 2; i < r; ++i) {
       ellipse(x, y + i * 4, i * 2, i * 2);
     }
-
   }
 
 }
