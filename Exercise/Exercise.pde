@@ -1,6 +1,7 @@
 // Learning Processing Exercise 10-4, extending "Rain Game."
 
 final int MAX_NUMBER_OF_DROPS = 1000;
+final int FREQUENCY_IN_MILLISECONDS = 2000;
 Timer timer;
 Catcher catcher;
 Drop[] drops;
@@ -25,7 +26,7 @@ void draw() {
 void prepareGame() {
   catcher = new Catcher(32);
   drops = new Drop[MAX_NUMBER_OF_DROPS];
-  timer = new Timer(2000);
+  timer = new Timer(FREQUENCY_IN_MILLISECONDS);
   timer.start();
 }
 

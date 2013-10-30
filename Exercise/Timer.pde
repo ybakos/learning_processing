@@ -1,6 +1,6 @@
 class Timer {
 
-  int savedTime;
+  int startTime;
   int totalTime;
 
   Timer(int totalTime) {
@@ -8,12 +8,11 @@ class Timer {
   }
 
   void start() {
-    savedTime = millis();
+    startTime = millis();
   }
 
   boolean isFinished() {
-    int passedTime = millis() - savedTime;
-    return (passedTime > totalTime);
+    return (millis() - startTime > totalTime);
   }
 
 }
