@@ -24,9 +24,12 @@ class Drop {
   }
 
   void draw() {
-    fill(50, 100, 150);
+    fill(c);
     noStroke();
-    ellipse(x, y, r * 2, r * 2);
+    for (int i = 2; i < r; ++i) {
+      ellipse(x, y + i * 4, i * 2, i * 2);
+    }
+
   }
 
 }
