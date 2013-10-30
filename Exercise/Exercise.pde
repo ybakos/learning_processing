@@ -49,7 +49,13 @@ void play() {
 }
 
 void drawGameOver() {
-  println("OVER");
+  if (random(2) < .15) background(255); // occasional lightning
+    else background(0);
+  // masthead and click prompt
+  textSize(140);
+  textLeading(120);
+  fill(255, 50);
+  text("Game\nOver", 10, 180);
 }
 
 void prepareGame() {
@@ -90,6 +96,7 @@ void checkForCaughtDrops() {
       backgroundShade -= 20;
     }
   }
+  if (points <= 0) gameState = GameState.OVER;
 }
 
 void drawScore() {
