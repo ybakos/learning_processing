@@ -1,36 +1,18 @@
-// Learning Processing Example 10, "Rain Game."
+// Learning Processing Example 13-2. Random number distribution.
 
-final int MAX_NUMBER_OF_DROPS = 1000;
-Timer timer;
-Catcher catcher;
-Drop[] drops;
-int totalDrops = 0;
+float[] randomCounts = new float[20];
 
 void setup() {
-  size(400, 400);
-  catcher = new Catcher(32);
-  drops = new Drop[MAX_NUMBER_OF_DROPS];
-  timer = new Timer(2000);
-  timer.start();
+  size(200, 200);
 }
 
 void draw() {
   background(200);
-  catcher.setLocation(mouseX, mouseY);
-  catcher.draw();
-  if (timer.isFinished()) {
-    drops[totalDrops] = new Drop();
-    ++totalDrops;
-    if (totalDrops >= drops.length) {
-      totalDrops = 0;
-    }
-    timer.start();
-  }
-  for (int i = 0; i < totalDrops; ++i) {
-    drops[i].move();
-    drops[i].draw();
-    if (catcher.intersect(drops[i])) {
-      drops[i].caught();
-    }
+  int index = int(random(randomCounts.length));
+  randomCounts[index]++;
+  stroke(0);
+  fill(175);
+  for (int x = 0; x < randomCounts.length; ++x) {
+    rect(x * 10, 0, 9, randomCounts[x]);
   }
 }
