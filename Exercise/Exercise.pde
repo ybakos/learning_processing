@@ -1,19 +1,18 @@
-// Learning Processing Exercise 13-5. Spirilitis.
+// Learning Processing Exercise 13-6. An array of oscillators.
 
-float r = 0;
-float theta = 0;
+Oscillator[] oscillators = new Oscillator[100];
 
 void setup() {
-  size(200, 200);
-  background(200);
+  size(400, 400);
+  for (int i = 0; i < oscillators.length; ++i) {
+    oscillators[i] = new Oscillator();
+  }
 }
 
 void draw() {
-  float x = r * cos(theta);
-  float y = r * sin(theta);
-  noStroke();
-  fill(150);
-  ellipse(x + width / 2, y + height / 2, 16, 16);
-  theta += 0.01;
-  r += 0.05;
+  background(200);
+  for (int i = 0; i < oscillators.length; ++i) {
+    oscillators[i].oscillate();
+    oscillators[i].display();
+  }
 }
