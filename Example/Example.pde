@@ -1,28 +1,29 @@
-// Learning Processing Example 13-3. Probabilities.
+// Learning Processing Example 13-6a. A graph of random values.
 
-final float RED_PROB = 0.6;
-final float GREEN_PROB = 0.1;
-final float BLUE_PROB = 0.3;
-final int CIRCLE_DIAMETER = 64;
-
-color red = color(200, 53, 2, 150);
-color green = color(156, 200, 28, 150);
-color blue = color(10, 52, 178, 150);
+float[] vals;
 
 void setup() {
-  size(400, 400);
-  background(255);
-  noStroke();
+  size(400,200);
+  smooth();
+  // An array of random values
+  vals = new float[width];
+  for (int i = 0; i < vals.length; i++) {
+    vals[i] = random(height);
+  }
 }
 
 void draw() {
-  float num = random(1);
-  if (num < RED_PROB) {
-    fill(red);
-  } else if (num < RED_PROB + GREEN_PROB) {
-    fill(green);
-  } else {
-    fill(blue);
+  background(255);
+  // Draw lines connecting all points
+  for (int i = 0; i < vals.length - 1; i++) {
+    stroke(0);
+    strokeWeight(2);
+    line(i, vals[i], i + 1, vals[i + 1]);
   }
-  ellipse(random(width), random(height), CIRCLE_DIAMETER, CIRCLE_DIAMETER);
+  // Slide everything down in the array
+  for (int i = 0; i < vals.length - 1; i++) {
+    vals[i] = vals[i + 1]; 
+  }
+  // Add a new random value
+  vals[vals.length - 1] = random(height);
 }
