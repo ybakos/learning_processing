@@ -1,18 +1,16 @@
-// Learning Processing Exercise 13-6. An array of oscillators.
+// Learning Processing Exercise 13-7. Breathe.
 
-Oscillator[] oscillators = new Oscillator[100];
+float theta = 0.0;
 
 void setup() {
   size(400, 400);
-  for (int i = 0; i < oscillators.length; ++i) {
-    oscillators[i] = new Oscillator();
-  }
 }
 
 void draw() {
   background(200);
-  for (int i = 0; i < oscillators.length; ++i) {
-    oscillators[i].oscillate();
-    oscillators[i].display();
-  }
+  int r = 100 + (int)((sin(theta) + 1) * (width / 4));
+  noStroke();
+  fill(33, 200 - (sin(theta) + 1) * 100);
+  ellipse(width / 2, height / 2, r, r);
+  theta += mouseX / float(5 * width);
 }
