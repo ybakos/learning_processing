@@ -1,20 +1,20 @@
-// Learning Processing Exercise 13-8. Moving a noisy wave.
-
-float noiseIndex = 0.0;
+// Learning Processing Exercise 13-9. A recursive pattern.
 
 void setup() {
-  size(400, 400);
+  size(400, 200);
 }
 
 void draw() {
   background(200);
-  noiseIndex += 0.02;
-  noStroke();
-  fill(0);
-  float x = noiseIndex;
-  for (int i = 0; i <= 40; ++i) {
-    float y = noise(x) * height;
-    ellipse(i * 10, y, 16, 16);
-    x += 0.2;
+  stroke(0);
+  branch(width / 2, height, 100);
+}
+
+void branch(float x, float y, float h) {
+  line(x, y, x - h, y - h);
+  line(x, y, x + h, y - h);
+  if (h > 2) {
+    branch(x - h, y - h, h / 2);
+    branch(x + h, y - h, h / 2);
   }
 }
