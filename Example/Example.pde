@@ -12,8 +12,10 @@ void draw() {
 
 void drawCircle(float x, float y, float diameter) {
   ellipse(x, y, diameter, diameter);
-  if (diameter > 2) {
+  if (diameter > 8) {
     drawCircle(x + diameter / 2, y, diameter / 2);
     drawCircle(x - diameter / 2, y, diameter / 2);
+    drawCircle(x, y + diameter / 2, diameter / 2);
+    drawCircle(x, y - diameter / 2, diameter / 2);
   }
 }
