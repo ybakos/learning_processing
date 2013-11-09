@@ -1,21 +1,25 @@
-// Learning Processing Example 13-8. Recursion.
+// Learning Processing Example 13-9. Two-dimensional grid of gray points.
+
+final int SIZE = 800;
+final int ROWS = SIZE;
+final int COLUMNS = SIZE;
+
+int[][] points = new int[ROWS][COLUMNS];
 
 void setup() {
-  size(400, 400);
+  size(SIZE, SIZE);
+  for (int i = 0; i < ROWS; ++i) {
+    for (int j = 0; j < COLUMNS; ++j) {
+      points[i][j] = (int)random(255);
+    }
+  }
 }
 
 void draw() {
-  stroke(33);
-  noFill();
-  drawCircle(width / 2, height / 2, 200);
-}
-
-void drawCircle(float x, float y, float diameter) {
-  ellipse(x, y, diameter, diameter);
-  if (diameter > 8) {
-    drawCircle(x + diameter / 2, y, diameter / 2);
-    drawCircle(x - diameter / 2, y, diameter / 2);
-    drawCircle(x, y + diameter / 2, diameter / 2);
-    drawCircle(x, y - diameter / 2, diameter / 2);
+  for (int i = 0; i < ROWS; ++i) {
+    for (int j = 0; j < COLUMNS; ++j) {
+      stroke(points[i][j]);
+      point(i, j);
+    }
   }
 }
