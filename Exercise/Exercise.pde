@@ -1,28 +1,13 @@
-// Learning Processing Exercise 13-10. A tic-tac-toe stub.
+// Learning Processing Exercise 14-1. Practicing with translate.
 
-final int ROWS = 3;
-final int COLS = 3;
+size(200, 200);
+background(0);
+stroke(255);
+fill(255, 100);
 
-Cell[][] board = new Cell[ROWS][COLS];
-
-void setup() {
-  size(400, 400);
-  for (int i = 0; i < ROWS; ++i) {
-    for (int j = 0; j < COLS; ++j) {
-      board[i][j] = new Cell(j * width / COLS, i * height / ROWS, width / COLS, height / ROWS);
-    }
-  }
-}
-
-void draw() {
-  background(0);
-  for (int i = 0; i < ROWS; ++i) {
-    for (int j = 0; j < COLS; ++j) {
-      board[i][j].display();
-    }
-  }
-}
-
-void mousePressed() {
-  board[(int)map(mouseY, 0, height, 0, 3)][(int)map(mouseX, 0, height, 0, 3)].activate();
-}
+translate(50, 50);
+rect(0, 0, 100, 100);
+translate(50, -50);
+rect(0, 0, 100, 100);
+translate(-50, 150);
+line(0, 0, -50, 50);
