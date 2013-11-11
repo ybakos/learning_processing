@@ -1,25 +1,18 @@
-// Learning Processing Example 13-10. Two-dimensional grid of oscillating cells.
+// Learning Processing Example 14-3. Simple 3D translation.
 
-final int ROWS = 20;
-final int COLS = 20;
-
-Cell[][] grid = new Cell[ROWS][COLS];
+float z = 0;
 
 void setup() {
-  size(400, 400);
-  for (int i = 0; i < ROWS; ++i) {
-    for (int j = 0; j < COLS; ++j) {
-      grid[i][j] = new Cell(i * 20, j * 20, 20, 20, i + j);
-    }
-  }
+  size(400, 400, P3D);
 }
 
 void draw() {
-  background(0);
-  for (int i = 0; i < ROWS; ++i) {
-    for (int j = 0; j < COLS; ++j) {
-      grid[i][j].oscillate();
-      grid[i][j].display();
-    }
-  }
+  background(33);
+  stroke(200);
+  fill(100);
+  translate(width / 2, height / 2, z);
+  rectMode(CENTER);
+  rect(0, 0, 8, 8);
+  ++z;
+  println(z);
 }
