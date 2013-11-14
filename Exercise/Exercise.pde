@@ -1,20 +1,53 @@
-// Learning Processing Exercise 14-6. Rotating a line around its center.
+// Learning Processing Exercise 14-7. Rotating a 3D cube.
 
 float theta = 0.0;
 
 void setup() {
-  size(400, 400);
+  size(400, 400, P3D);
 }
 
 void draw() {
   background(33);
   translate(width / 2, height / 2);
-  rotate(theta);
-  stroke(200);
-  line(-100, 100, 100, -100);
-  stroke(255);
-  fill(random(0, 255));
-  ellipse(-100, 100, 10, 10);
-  ellipse(100, -100, 10, 10);
+  rotateX(theta);
+  rotateY(theta);
+  int size = (int)abs((width * (cos(theta) / 2)));
+  drawCube(constrain(size, 10, 100));
   theta += 0.01;
+}
+
+void drawCube(int size) {
+  beginShape(QUADS);
+
+  fill(100, 127);
+  vertex(-size, -size, size);
+  vertex(size, -size, size);
+  vertex(size, size, size);
+  vertex(-size, size, size);
+  fill(130, 127);
+  vertex(-size, -size, size);
+  vertex(-size, -size, -size);
+  vertex(-size, size, -size);
+  vertex(-size, size, size);
+  fill(160, 127);
+  vertex(size, -size, size);
+  vertex(size, -size, -size);
+  vertex(size, size, -size);
+  vertex(size, size, size);
+  fill(190, 127);
+  vertex(-size, -size, size);
+  vertex(-size, -size, -size);
+  vertex(size, -size, -size);
+  vertex(size, -size, size);
+  fill(220, 127);
+  vertex(-size, size, size);
+  vertex(-size, size, -size);
+  vertex(size, size, -size);
+  vertex(size, size, size);
+  fill(250, 127);
+  vertex(-size, -size, -size);
+  vertex(size, -size, -size);
+  vertex(size, size, -size);
+  vertex(-size, size, -size);
+  endShape();
 }
