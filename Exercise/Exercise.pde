@@ -1,18 +1,54 @@
-// Learning Processing Exercise 14-8. A pyramid class.
+// Learning Processing Exercise 14-7. Rotating a 3D cube.
 
 float theta = 0.0;
-
-Pyramid pyramid = new Pyramid(100);
 
 void setup() {
   size(400, 400, P3D);
 }
 
 void draw() {
-  theta += 0.01;
-  background(200);
-  translate(width / 2, height / 2, 0);
+  background(33);
+  translate(width / 2, height / 2);
   rotateX(theta);
   rotateY(theta);
-  pyramid.draw();
+  scale(cos(theta));
+  // scale(cos(theta), sin(theta), cos(theta));
+  drawCube(100);
+  theta += 0.01;
+}
+
+void drawCube(int size) {
+  beginShape(QUADS);
+
+  fill(100, 127);
+  vertex(-size, -size, size);
+  vertex(size, -size, size);
+  vertex(size, size, size);
+  vertex(-size, size, size);
+  fill(130, 127);
+  vertex(-size, -size, size);
+  vertex(-size, -size, -size);
+  vertex(-size, size, -size);
+  vertex(-size, size, size);
+  fill(160, 127);
+  vertex(size, -size, size);
+  vertex(size, -size, -size);
+  vertex(size, size, -size);
+  vertex(size, size, size);
+  fill(190, 127);
+  vertex(-size, -size, size);
+  vertex(-size, -size, -size);
+  vertex(size, -size, -size);
+  vertex(size, -size, size);
+  fill(220, 127);
+  vertex(-size, size, size);
+  vertex(-size, size, -size);
+  vertex(size, size, -size);
+  vertex(size, size, size);
+  fill(250, 127);
+  vertex(-size, -size, -size);
+  vertex(size, -size, -size);
+  vertex(size, size, -size);
+  vertex(-size, size, -size);
+  endShape();
 }
