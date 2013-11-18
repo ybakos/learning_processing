@@ -1,54 +1,19 @@
-// Learning Processing Exercise 14-7. Rotating a 3D cube.
+// Learning Processing Exercise 14-9. Rotating a collection of 3D cubes.
 
-float theta = 0.0;
+final int NUMBER_OF_CUBES = 50;
+Cube[] cubes = new Cube[NUMBER_OF_CUBES];
 
 void setup() {
   size(400, 400, P3D);
+  for (int i = 0; i < NUMBER_OF_CUBES; ++i) {
+    cubes[i] = new Cube((int)random(width), (int)random(height), (int)random(2, 50), random(10), random(0, 0.1));
+  }
 }
 
 void draw() {
   background(33);
-  translate(width / 2, height / 2);
-  rotateX(theta);
-  rotateY(theta);
-  scale(cos(theta));
-  // scale(cos(theta), sin(theta), cos(theta));
-  drawCube(100);
-  theta += 0.01;
+  for (int i = 0; i < NUMBER_OF_CUBES; ++i) {
+    cubes[i].draw();
+  }
 }
 
-void drawCube(int size) {
-  beginShape(QUADS);
-
-  fill(100, 127);
-  vertex(-size, -size, size);
-  vertex(size, -size, size);
-  vertex(size, size, size);
-  vertex(-size, size, size);
-  fill(130, 127);
-  vertex(-size, -size, size);
-  vertex(-size, -size, -size);
-  vertex(-size, size, -size);
-  vertex(-size, size, size);
-  fill(160, 127);
-  vertex(size, -size, size);
-  vertex(size, -size, -size);
-  vertex(size, size, -size);
-  vertex(size, size, size);
-  fill(190, 127);
-  vertex(-size, -size, size);
-  vertex(-size, -size, -size);
-  vertex(size, -size, -size);
-  vertex(size, -size, size);
-  fill(220, 127);
-  vertex(-size, size, size);
-  vertex(-size, size, -size);
-  vertex(size, size, -size);
-  vertex(size, size, size);
-  fill(250, 127);
-  vertex(-size, -size, -size);
-  vertex(size, -size, -size);
-  vertex(size, size, -size);
-  vertex(-size, size, -size);
-  endShape();
-}
