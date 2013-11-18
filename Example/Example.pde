@@ -1,33 +1,22 @@
-// Learning Processing Example 14-16. Simple solar system
+// Learning Processing Example 14-18. A more complex solar system.
 
-float theta = 0.0;
+Planet[] planets = new Planet[8];
 
 void setup() {
   size(400, 400, P3D);
+  for (int i = 0; i < planets.length; ++i) {
+    planets[i] = new Planet(20 + i * 10, i + 8);
+  }
 }
 
 void draw() {
   background(200);
-  stroke(0);
   translate(width / 2, height / 2);
-  fill(255, 200, 50);
+  stroke(0);
+  fill(255);
   ellipse(0, 0, 20, 20);
-
-  rotate(theta);
-  translate(50, 0);
-  fill(50, 200, 255);
-  ellipse(0, 0, 10, 10);
-
-  pushMatrix();
-  rotate(-theta * 4);
-  translate(15, 0);
-  fill(50, 255, 200);
-  ellipse(0, 0, 6, 6);
-  popMatrix();
-
-  rotate(theta * 2);
-  translate(25, 0);
-  fill(50, 255, 200);
-  ellipse(0, 0, 6, 6);
-  theta += 0.01;
+  for (int i = 0; i < planets.length; ++i) {
+    planets[i].update();
+    planets[i].draw();
+  }
 }
