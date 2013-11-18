@@ -1,48 +1,20 @@
-// Learning Processing Example 14-10. Rotating pyramids.
+// Learning Processing Example 14-15. Rotating objects in a collection independently.
 
-float theta = 0.0;
+final int NUMBER_OF_ROTATERS = 200;
+Rotater[] rotaters = new Rotater[NUMBER_OF_ROTATERS];
 
 void setup() {
   size(400, 400, P3D);
+  for (int i = 0; i < NUMBER_OF_ROTATERS; ++i) {
+    rotaters[i] = new Rotater(random(width), random(height), random(-0.1, 0.1), random(48));
+  }
 }
 
 void draw() {
-  theta += 0.01;
   background(200);
-  translate(100, 100, 0);
-  rotateX(theta);
-  rotateY(theta);
-  drawPyramid(50);
-  pushMatrix();
-  translate(50, 50, 20);
-  rotateX(-theta);
-  rotateY(-theta);
-  drawPyramid(10);
-  popMatrix();
+  for (int i = 0; i < NUMBER_OF_ROTATERS; ++i) {
+    rotaters[i].spin();
+    rotaters[i].draw();
+  }
 }
 
-void drawPyramid(int size) {
-  beginShape(TRIANGLES);
-
-  fill(150, 0, 0, 127);
-  vertex(-size, -size, -size);
-  vertex(size, -size, -size);
-  vertex(0, 0, size);
-
-  fill(0, 150, 0, 127);
-  vertex(size, -size, -size);
-  vertex(size, size, -size);
-  vertex(0, 0, size);
-
-  fill(0, 0, 150, 127);
-  vertex(size, size, -size);
-  vertex(-size, size, -size);
-  vertex(0, 0, size);
-
-  fill(150, 0, 150, 127);
-  vertex(-size, size, -size);
-  vertex(-size, -size, -size);
-  vertex(0, 0, size);
-
-  endShape();
-}
