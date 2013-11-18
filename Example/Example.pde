@@ -1,20 +1,33 @@
-// Learning Processing Example 14-15. Rotating objects in a collection independently.
+// Learning Processing Example 14-16. Simple solar system
 
-final int NUMBER_OF_ROTATERS = 200;
-Rotater[] rotaters = new Rotater[NUMBER_OF_ROTATERS];
+float theta = 0.0;
 
 void setup() {
   size(400, 400, P3D);
-  for (int i = 0; i < NUMBER_OF_ROTATERS; ++i) {
-    rotaters[i] = new Rotater(random(width), random(height), random(-0.1, 0.1), random(48));
-  }
 }
 
 void draw() {
   background(200);
-  for (int i = 0; i < NUMBER_OF_ROTATERS; ++i) {
-    rotaters[i].spin();
-    rotaters[i].draw();
-  }
-}
+  stroke(0);
+  translate(width / 2, height / 2);
+  fill(255, 200, 50);
+  ellipse(0, 0, 20, 20);
 
+  rotate(theta);
+  translate(50, 0);
+  fill(50, 200, 255);
+  ellipse(0, 0, 10, 10);
+
+  pushMatrix();
+  rotate(-theta * 4);
+  translate(15, 0);
+  fill(50, 255, 200);
+  ellipse(0, 0, 6, 6);
+  popMatrix();
+
+  rotate(theta * 2);
+  translate(25, 0);
+  fill(50, 255, 200);
+  ellipse(0, 0, 6, 6);
+  theta += 0.01;
+}
