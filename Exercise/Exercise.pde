@@ -1,19 +1,24 @@
-// Learning Processing Exercise 14-9. Rotating a collection of 3D cubes.
+// Learning Processing Exercise 14-10. A solar system with moons.
 
-final int NUMBER_OF_CUBES = 50;
-Cube[] cubes = new Cube[NUMBER_OF_CUBES];
+Planet[] planets = new Planet[8];
 
 void setup() {
   size(400, 400, P3D);
-  for (int i = 0; i < NUMBER_OF_CUBES; ++i) {
-    cubes[i] = new Cube((int)random(width), (int)random(height), (int)random(2, 50), random(10), random(0, 0.1));
+  for (int i = 0; i < planets.length; ++i) {
+    planets[i] = new Planet(40 + i * 20, i + 8, 2);
   }
 }
 
 void draw() {
-  background(33);
-  for (int i = 0; i < NUMBER_OF_CUBES; ++i) {
-    cubes[i].draw();
+  background(200);
+  translate(width / 2, height / 2);
+  stroke(0);
+  fill(255);
+  ellipse(0, 0, 20, 20);
+  for (int i = 0; i < planets.length; ++i) {
+    planets[i].update();
+    planets[i].draw();
   }
 }
+
 
