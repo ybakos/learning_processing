@@ -29,9 +29,9 @@ class Planet {
     pushMatrix();
     rotate(theta);
     translate(distance, 0);
-    stroke(0);
-    fill(175);
-    ellipse(0, 0, diameter, diameter);
+    noStroke();
+    fill(175, 127);
+    sphere(diameter);
     for (int i = 0; i < moons.length; ++i) {
       moons[i].draw();
     }
