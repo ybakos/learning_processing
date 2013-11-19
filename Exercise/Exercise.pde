@@ -10,15 +10,14 @@ void setup() {
 }
 
 void draw() {
-  background(200);
+  background(33);
   translate(width / 2, height / 2);
-  stroke(0);
-  fill(255);
+  rotateX(PI / 3);
+  stroke(200);
+  fill(200, 200, 0);
   ellipse(0, 0, 20, 20);
   for (int i = 0; i < planets.length; ++i) {
     planets[i].update();
     planets[i].draw();
   }
 }
-
-
