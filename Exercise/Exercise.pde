@@ -1,23 +1,21 @@
-// Learning Processing Exercise 15-3. Tinting an image.
+// Learning Processing Exercise 15-4. Layered images and alpha transparency.
 
 PImage hoff;
+PImage skull;
 
 void setup() {
   size(400, 400, P3D);
   hoff = loadImage("hoff.jpg");
+  skull = loadImage("skull.jpg");
 }
 
 void draw() {
   background(33);
-  pushMatrix();
-  pushStyle();
-  translate(width / 4, height / 2);
+  translate(width / 2, height / 2);
   imageMode(CENTER);
-  tint((height - mouseX) % 255, (height - mouseY) % 255, 200);
+  image(skull, 0, 0, 200, 200);
+  pushStyle();
+  tint(255, 180);
   image(hoff, 0, 0, 200, 200);
   popStyle();
-  popMatrix();
-  translate(width - width / 4, height / 2);
-  imageMode(CENTER);
-  image(hoff, 0, 0, 200, 200);
 }
