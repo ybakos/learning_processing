@@ -1,8 +1,4 @@
-// Learning Processing Exercise 15-1. Displaying an image.
-
-float theta = 0.0;
-int minImageHeight = 100;
-int minImageWidth = 100;
+// Learning Processing Exercise 15-3. Tinting an image.
 
 PImage hoff;
 
@@ -13,9 +9,15 @@ void setup() {
 
 void draw() {
   background(33);
-  theta += 0.01;
-  translate(width / 2, height / 2);
-  rotateX(theta);
+  pushMatrix();
+  pushStyle();
+  translate(width / 4, height / 2);
   imageMode(CENTER);
-  image(hoff, 0, 0, minImageWidth + mouseX, minImageHeight + mouseY);
+  tint((height - mouseX) % 255, (height - mouseY) % 255, 200);
+  image(hoff, 0, 0, 200, 200);
+  popStyle();
+  popMatrix();
+  translate(width - width / 4, height / 2);
+  imageMode(CENTER);
+  image(hoff, 0, 0, 200, 200);
 }
