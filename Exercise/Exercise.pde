@@ -1,23 +1,23 @@
-// Learning Processing Exercise 15-6. Manipulating the pixels array.
+// Learning Processing Exercise 15-7. Using an image's pixels to draw pixels.
 
-size(255, 255);
+PImage hoff;
 
-loadPixels();
-for (int x = 0; x < width; ++x) {
-  for (int y = 0; y < height; ++y) {
-    int loc = x + y * width;
-    float distance = dist(width / 2, height / 2, x, y);
-    pixels[loc] = color(distance);
-  }
+void setup() {
+  hoff = loadImage("hoff.jpg");
+  size(hoff.width, hoff.height);
 }
-// for (int x = 0; x < width; ++x) {
-//   for (int y = 0; y < height; ++y) {
-//     int loc = x + y * width;
-//     if (x < width / 2) {
-//       pixels[loc] = color(x);
-//     } else {
-//       pixels[loc] = color(y);
-//     }
-//   }
-// }
-updatePixels();
+
+void draw() {
+  loadPixels();
+  hoff.loadPixels();
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+      int loc = x + y * width;
+      float r = red(hoff.pixels[loc]);
+      float g = green(hoff.pixels[loc]);
+      float b = blue(hoff.pixels[loc]);
+      pixels[loc] = color(random(0, r), random(0, g), random(0, b));
+    }
+  }
+  updatePixels();
+}
