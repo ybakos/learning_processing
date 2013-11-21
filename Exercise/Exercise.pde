@@ -1,21 +1,23 @@
-// Learning Processing Exercise 15-4. Layered images and alpha transparency.
+// Learning Processing Exercise 15-6. Manipulating the pixels array.
 
-PImage hoff;
-PImage skull;
+size(255, 255);
 
-void setup() {
-  size(400, 400, P3D);
-  hoff = loadImage("hoff.jpg");
-  skull = loadImage("skull.jpg");
+loadPixels();
+for (int x = 0; x < width; ++x) {
+  for (int y = 0; y < height; ++y) {
+    int loc = x + y * width;
+    float distance = dist(width / 2, height / 2, x, y);
+    pixels[loc] = color(distance);
+  }
 }
-
-void draw() {
-  background(33);
-  translate(width / 2, height / 2);
-  imageMode(CENTER);
-  image(skull, 0, 0, 200, 200);
-  pushStyle();
-  tint(255, 180);
-  image(hoff, 0, 0, 200, 200);
-  popStyle();
-}
+// for (int x = 0; x < width; ++x) {
+//   for (int y = 0; y < height; ++y) {
+//     int loc = x + y * width;
+//     if (x < width / 2) {
+//       pixels[loc] = color(x);
+//     } else {
+//       pixels[loc] = color(y);
+//     }
+//   }
+// }
+updatePixels();
