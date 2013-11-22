@@ -1,28 +1,30 @@
-// Learning Processing Exercise 15-8. Adjusting brightness according to the mouse position.
+// Learning Processing Exercise 15-9. Adjusting threshold per mouse location.
 
 PImage hoff;
+PImage silhouette;
+
+float threshold = 127.0;
 
 void setup() {
   hoff = loadImage("hoff.jpg");
+  silhouette = createImage(hoff.width, hoff.height, RGB);
   size(hoff.width, hoff.height);
 }
 
 void draw() {
-  loadPixels();
+  threshold = mouseX - width / 3;
   hoff.loadPixels();
-  for (int y = 0; y < height; ++y) {
-    for (int x = 0; x < width; ++x) {
-      int loc = x + y * width;
-      float r = red(hoff.pixels[loc]);
-      float g = green(hoff.pixels[loc]);
-      float b = blue(hoff.pixels[loc]);
-      float distance = dist(x, y, mouseX, mouseY);
-      float brightness = (100 - distance) / 100;
-      r = constrain(r * brightness, 0, 255);
-      g = constrain(g * brightness, 0, 255);
-      b = constrain(b * brightness, 0, 255);
-      pixels[loc] = color(r, g, b);
+  silhouette.loadPixels();
+  for (int y = 0; y < hoff.height; ++y) {
+    for (int x = 0; x < hoff.width; ++x) {
+      int loc = x + y * hoff.width;
+      if (brightness(hoff.pixels[loc]) > threshold) {
+        silhouette.pixels[loc] = color(255);
+      } else {
+        silhouette.pixels[loc] = color(0);
+      }
     }
   }
-  updatePixels();
+  silhouette.updatePixels();
+  image(silhouette, 0, 0);
 }
