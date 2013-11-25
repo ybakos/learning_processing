@@ -1,26 +1,20 @@
-// An experimentation with curveVertex.
+// Experimenting with filters.
 
-size(400, 400);
-background(33);
-stroke(200);
-noFill();
+PImage hoff;
 
-beginShape();
-curveVertex(50, 50);
-curveVertex(100, 100);
-curveVertex(200, 200);
-curveVertex(200, 250);
-curveVertex(50, 50);
-curveVertex(50, 150);
-curveVertex(120, 150);
+void setup() {
+  hoff = loadImage("hoff.jpg");
+  size(hoff.width, hoff.height);
+}
 
-endShape();
-
-strokeWeight(5);
-point(50, 50);
-point(100, 100);
-point(200, 200);
-point(200, 250);
-point(50, 50);
-point(50, 150);
-point(120, 150);
+void draw() {
+  image(hoff, 0, 0);
+//  filter(THRESHOLD, 0.5);
+//  filter(GRAY);
+  //filter(OPAQUE);
+  //filter(INVERT);
+  filter(POSTERIZE, constrain((float(mouseX) / width) * 30, 2, 100));
+  // filter(ERODE);
+  //filter(BLUR, 4.0);
+  //filter(DILATE);
+}
