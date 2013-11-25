@@ -1,22 +1,24 @@
-// Learning Processing Example 14-18. A more complex solar system.
+// Learning Processing Example 15-12. Crude edge detection.
 
-Planet[] planets = new Planet[8];
+PImage hoff;
 
 void setup() {
-  size(400, 400, P3D);
-  for (int i = 0; i < planets.length; ++i) {
-    planets[i] = new Planet(20 + i * 10, i + 8);
-  }
+  hoff = loadImage("hoff.jpg");
+  size(hoff.width, hoff.height);
 }
 
 void draw() {
-  background(200);
-  translate(width / 2, height / 2);
-  stroke(0);
-  fill(255);
-  ellipse(0, 0, 20, 20);
-  for (int i = 0; i < planets.length; ++i) {
-    planets[i].update();
-    planets[i].draw();
+  loadPixels();
+  hoff.loadPixels();
+  for (int x = 1; x < width; ++x) {
+    for (int y = 0; y < height; ++y) {
+      int loc = x + y * hoff.width;
+      color c = hoff.pixels[loc];
+      int left = x - 1 + y * hoff.width;
+      color cLeft = hoff.pixels[left];
+      float diff = abs(brightness(c) - brightness(cLeft));
+      pixels[loc] = color(diff);
+    }
   }
+  updatePixels();
 }
