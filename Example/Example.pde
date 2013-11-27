@@ -1,37 +1,25 @@
-// Learning Processing Example 15-15. Mapping an image to 3D.
+// Learning Processing Example 16-1. Video capture and display.
 
-PImage hoff;
-final int CELL_SIZE = 2;
-int columns;
-int rows;
+import processing.video.*;
+
+Capture video;
+
+float theta = 0.0;
 
 void setup() {
-  hoff = loadImage("hoff.jpg");
-  size(hoff.width, hoff.height, P3D);
-  columns = width / CELL_SIZE;
-  rows = height / CELL_SIZE;
+  size(displayWidth, displayHeight, P2D);
+  video = new Capture(this, 640, 480, 30);
+  video.start();
 }
 
 void draw() {
-  background(0);
-  loadPixels();
-  //translate(width / 2, height / 2);
-  rotateX(PI * (float(mouseY) / height));
-  for (int i = 0; i < columns; ++i) {
-    for (int j = 0; j < rows; ++j) {
-      int x = i * CELL_SIZE + CELL_SIZE / 2;
-      int y = j * CELL_SIZE + CELL_SIZE / 2;
-      int loc = x + y * width;
-      color c = hoff.pixels[loc];
-      float z = (mouseX / (float)width) * brightness(hoff.pixels[loc]) - 100.0;
-      pushMatrix();
-      translate(x, y, z);
-
-      fill(c);
-      noStroke();
-      rectMode(CENTER);
-      rect(0, 0, CELL_SIZE, CELL_SIZE);
-      popMatrix();
-    }
+  background(33);
+  if (video.available()) {
+    video.read();
   }
+  translate(width / 2, height / 2);
+  rotate(theta);
+  imageMode(CENTER);
+  image(video, 0, 0);
+  theta += 0.01;
 }
