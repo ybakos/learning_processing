@@ -1,43 +1,35 @@
-// Learning Processing Exercise 15-11. Creating a pixel "filter" that uses two images.
+// Learning Processing Exercise 16-2. Pointillising a video.
 
-PImage hoff;
-PImage skull;
+import processing.video.*;
 
-final int LENS_SIZE = 80;
+final int SCREEN_WIDTH = 640;
+final int SCREEN_HEIGHT = 480;
+final int POINT_SIZE = 16;
+Capture video;
+
 
 void setup() {
-  hoff = loadImage("hoff.jpg");
-  skull = loadImage("skull.jpg");
-  size(hoff.width, hoff.height);
-  println(width);
+  size(SCREEN_WIDTH, SCREEN_HEIGHT, P2D);
+  video = new Capture(this, SCREEN_WIDTH, SCREEN_HEIGHT, 30);
+  video.start();
+  background(33);
 }
 
 void draw() {
-  image(hoff, 0, 0);
-  int xStart = constrain(mouseX - LENS_SIZE / 2, 0, width);
-  int yStart = constrain(mouseY - LENS_SIZE / 2, 0, height);
-  int xEnd = constrain(mouseX + LENS_SIZE / 2, 0, width);
-  int yEnd = constrain(mouseY + LENS_SIZE / 2, 0, height);
-  loadPixels();
-  for (int x = xStart; x < xEnd; ++x) {
-    for (int y = yStart; y < yEnd; ++y) {
-      color c = blend(x, y, hoff, skull);
-      int loc = x + y * hoff.width;
-      pixels[loc] = c;
-    }
+  if (video.available()) {
+    video.read();
   }
-  updatePixels();
-  stroke(0);
-  noFill();
-  rect(xStart, yStart, LENS_SIZE, LENS_SIZE);
-}
-
-color blend(int x, int y, PImage foreground, PImage background) {
-  int loc = x + y * foreground.width;
-  color foregroundPixel = foreground.pixels[loc];
-  color backgroundPixel = background.pixels[loc];
-  float r = abs(red(foregroundPixel) - red(backgroundPixel));
-  float g = abs(green(foregroundPixel) - green(backgroundPixel));
-  float b = abs(blue(foregroundPixel) - blue(backgroundPixel));
-  return color(r, g, b);
+  video.loadPixels();
+  for (int i = 0; i < 200; ++i) {
+    int x = (int)random(video.width);
+    int y = (int)random(video.height);
+    int loc = x + y * video.width;
+   
+    float r = red(video.pixels[loc]);
+    float g = green(video.pixels[loc]);
+    float b = blue(video.pixels[loc]);
+    noStroke();
+    fill(r, g, b, 100);
+    ellipse(x, y, POINT_SIZE, POINT_SIZE);
+  }
 }
