@@ -1,11 +1,11 @@
-// Learning Processing Example 16-7. Video pixelization effect.
+// Learning Processing Example 16-8. Video mirror using brightness to determine rectangle sizes.
 
 import processing.video.*;
 
 final int SCREEN_WIDTH = 1024;
 final int SCREEN_HEIGHT = 768;
 final int FPS = 30;
-final int SCALE = 32;
+final int SCALE = 16;
 final int COLUMNS = SCREEN_WIDTH / SCALE;
 final int ROWS = SCREEN_HEIGHT / SCALE;
 Capture video;
@@ -29,10 +29,13 @@ void draw() {
     for (int j = 0; j < ROWS; ++j) {
       int x = i * SCALE;
       int y = j * SCALE;
-      color c = video.pixels[i + j * video.width];
-      fill(c);
-      stroke(0);
-      rect(x, y - height / 2, SCALE, SCALE);
+      int loc = (video.width - i - 1) + j * video.width;
+      color c = video.pixels[loc];
+      float size = (brightness(c) / 255.0) * SCALE;
+      rectMode(CENTER);
+      fill(255);
+      noStroke();
+      rect(x + SCALE / 2, y + SCALE / 2 - height / 2, size, size);
     }
   }
   theta += 0.01;
