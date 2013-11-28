@@ -1,4 +1,4 @@
-// Learning Processing Example 16-4. Displaying a movie.
+// Learning Processing Example 16-5. Scrubbing within a movie.
 
 import processing.video.*;
 
@@ -9,14 +9,13 @@ Movie movie;
 void setup() {
   size(SCREEN_WIDTH, SCREEN_HEIGHT, P2D);
   movie = new Movie(this, "surfing.mov");
-  movie.loop();
-//  video.start();
+  background(33);
+  movie.play();
 }
 
 void draw() {
-  background(33);
-  if (movie.available()) {
-    movie.read();
-  }
+  float ratio = mouseX / float(width);
+  movie.jump(ratio * movie.duration());
+  movie.read();
   image(movie, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
