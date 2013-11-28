@@ -1,10 +1,8 @@
-// Learning Processing Example 16-1. Video capture and display.
+// Learning Processing Example 16-2. Video tinting.
 
 import processing.video.*;
 
 Capture video;
-
-float theta = 0.0;
 
 void setup() {
   size(displayWidth, displayHeight, P2D);
@@ -17,9 +15,6 @@ void draw() {
   if (video.available()) {
     video.read();
   }
-  translate(width / 2, height / 2);
-  rotate(theta);
-  imageMode(CENTER);
-  image(video, 0, 0);
-  theta += 0.01;
+  tint((float(mouseX) / width) * 255, (float(mouseY) / height) * 255, 255);
+  image(video, 0, 0, mouseX, mouseY);
 }
