@@ -1,21 +1,29 @@
-// Learning Processing Exercise 16-3. Changing the speed of a video.
+// Learning Processing Exercise 16-4. A video mirror of random sized rectangles.
 
 import processing.video.*;
 
-final int SCREEN_WIDTH = 640;
-final int SCREEN_HEIGHT = 480;
-Movie movie;
+Capture video;
+float x;
+float y;
 
 void setup() {
-  size(SCREEN_WIDTH, SCREEN_HEIGHT, P2D);
-  movie = new Movie(this, "surfing.mov");
-  background(33);
-  movie.loop();
+  size(640, 480);
+  background(0);
+  video = new Capture(this, width, height, 15);
+  video.start();
 }
 
 void draw() {
-  float ratio = (mouseX - float(width) / 2) / float(width);
-  movie.speed(ratio * 2);
-  if (movie.available()) movie.read();
-  image(movie, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  if (video.available()) video.read();
+  video.loadPixels();
+  x = random(0, width);
+  y = random(0, height);
+  int rectWidth = (int)random(2, 20);
+  int rectHeight = (int)random(2, 20);
+  int midX = (int)constrain((x + rectWidth) / 2, 0, width);
+  int midY = (int)constrain((y + rectHeight) / 2, 0, height);
+  color c = video.pixels[(width - 1 - midX) + (midY * video.width)];
+  noStroke();
+  fill(c, 100);
+  rect(x, y, rectWidth, rectHeight);
 }
