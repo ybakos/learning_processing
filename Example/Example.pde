@@ -1,50 +1,46 @@
-// Learning Processing Example 16-12. Simple background removal.
+// Learning Processing Example 16-13. Simple motion detection.
 
 import processing.video.*;
 
 Capture video;
-PImage backgroundImage = new PImage();
-final float THRESHOLD = 50.0;
+PImage previousFrame;
+final float THRESHOLD = 100.0;
 
 void setup() {
   size(640, 480);
-  video = new Capture(this, width, height, 15);
+  video = new Capture(this, width, height, 30);
   video.start();
-  backgroundImage = createImage(video.width, video.height, RGB);
+  previousFrame = createImage(video.width, video.height, RGB);
 }
 
 void draw() {
-  if (video.available()) video.read();
+  if (video.available()) {
+    previousFrame.copy(video, 0, 0, width, height, 0, 0, width, height);
+    previousFrame.updatePixels();
+    video.read();
+  }
   loadPixels();
   video.loadPixels();
-  backgroundImage.loadPixels();
-  image(video, 0, 0);
-  float closestDistance = 500.0;
-  int closestX = 0;
-  int closestY = 0;
+  previousFrame.loadPixels();
+//  image(video, 0, 0);
   for (int x = 0; x < video.width; ++x) {
     for (int y = 0; y < video.height; ++y) {
       int loc = x + y * video.width;
-      color fgColor = video.pixels[loc];
-      color bgColor = backgroundImage.pixels[loc];
-      float r1 = red(fgColor);
-      float g1 = green(fgColor);
-      float b1 = blue(fgColor);
-      float r2 = red(bgColor);
-      float g2 = green(bgColor);
-      float b2 = blue(bgColor);
+      color current = video.pixels[loc];
+      color previous = previousFrame.pixels[loc];
+      float r1 = red(current);
+      float g1 = green(current);
+      float b1 = blue(current);
+      float r2 = red(previous);
+      float g2 = green(previous);
+      float b2 = blue(previous);
       float distance = dist(r1, g1, b1, r2, g2, b2);
       if (distance > THRESHOLD) {
-        pixels[loc] = fgColor;
+        pixels[loc] = color(0);
       } else {
-        pixels[loc] = color(0, 255, 0);
+        pixels[loc] = color(255);
       }
     }
   }
   updatePixels();
-}
-
-void mousePressed() {
-  backgroundImage.copy(video, 0, 0, video.width, video.height, 0, 0, video.width, video.height);
-  backgroundImage.updatePixels();
 }
