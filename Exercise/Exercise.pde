@@ -1,14 +1,14 @@
-// Learning Processing Exercise 16-4. A video mirror of random sized rectangles.
+// Learning Processing Exercise 16-5. Controlling a circle with video input.
 
 import processing.video.*;
 
 Capture video;
-float x;
-float y;
+color trackedColor;
+final float THRESHOLD = 10.0;
 
 void setup() {
   size(640, 480);
-  background(0);
+  trackedColor = color(255, 0, 0);
   video = new Capture(this, width, height, 15);
   video.start();
 }
@@ -16,14 +16,37 @@ void setup() {
 void draw() {
   if (video.available()) video.read();
   video.loadPixels();
-  x = random(0, width);
-  y = random(0, height);
-  int rectWidth = (int)random(2, 20);
-  int rectHeight = (int)random(2, 20);
-  int midX = (int)constrain((x + rectWidth) / 2, 0, width);
-  int midY = (int)constrain((y + rectHeight) / 2, 0, height);
-  color c = video.pixels[(width - 1 - midX) + (midY * video.width)];
-  noStroke();
-  fill(c, 100);
-  rect(x, y, rectWidth, rectHeight);
+  image(video, 0, 0);
+  float closestDistance = 500.0;
+  int closestX = 0;
+  int closestY = 0;
+  for (int x = 0; x < video.width; ++x) {
+    for (int y = 0; y < video.height; ++y) {
+      int loc = x + y * video.width;
+      color currentColor = video.pixels[loc];
+      float r1 = red(currentColor);
+      float g1 = green(currentColor);
+      float b1 = blue(currentColor);
+      float r2 = red(trackedColor);
+      float g2 = green(trackedColor);
+      float b2 = blue(trackedColor);
+      float distance = dist(r1, g1, b1, r2, g2, b2);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestX = x;
+        closestY = y;
+      }
+    }
+  }
+  if (closestDistance < THRESHOLD) {
+    fill(trackedColor, 100);
+    strokeWeight(4);
+    stroke(0);
+    ellipse(closestX, closestY, 100, 100);
+  }
+}
+
+void mousePressed() {
+  int loc = mouseX + mouseY * video.width;
+  trackedColor = video.pixels[loc];
 }
