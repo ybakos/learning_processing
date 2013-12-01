@@ -1,4 +1,4 @@
-// Learning Processing Example 16-13. Simple motion detection.
+// Learning Processing Example 16-14. Overall motion.
 
 import processing.video.*;
 
@@ -14,6 +14,7 @@ void setup() {
 }
 
 void draw() {
+  background(0);
   if (video.available()) {
     previousFrame.copy(video, 0, 0, width, height, 0, 0, width, height);
     previousFrame.updatePixels();
@@ -23,24 +24,22 @@ void draw() {
   video.loadPixels();
   previousFrame.loadPixels();
 //  image(video, 0, 0);
-  for (int x = 0; x < video.width; ++x) {
-    for (int y = 0; y < video.height; ++y) {
-      int loc = x + y * video.width;
-      color current = video.pixels[loc];
-      color previous = previousFrame.pixels[loc];
-      float r1 = red(current);
-      float g1 = green(current);
-      float b1 = blue(current);
-      float r2 = red(previous);
-      float g2 = green(previous);
-      float b2 = blue(previous);
-      float distance = dist(r1, g1, b1, r2, g2, b2);
-      if (distance > THRESHOLD) {
-        pixels[loc] = color(0);
-      } else {
-        pixels[loc] = color(255);
-      }
-    }
+  float totalMotion = 0.0;
+  for (int i = 0; i < video.pixels.length; ++i) {
+    color current = video.pixels[i];
+    color previous = previousFrame.pixels[i];
+    float r1 = red(current);
+    float g1 = green(current);
+    float b1 = blue(current);
+    float r2 = red(previous);
+    float g2 = green(previous);
+    float b2 = blue(previous);
+    float difference = dist(r1, g1, b1, r2, g2, b2);
+    totalMotion += difference;
   }
-  updatePixels();
+  float averageMotion = totalMotion / video.pixels.length;
+  noStroke();
+  fill(100 + averageMotion * 3, 100, 100);
+  float r = averageMotion * 2;
+  ellipse(width / 2, height / 2, r, r);
 }
