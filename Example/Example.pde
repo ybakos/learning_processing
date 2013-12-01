@@ -1,21 +1,23 @@
-// Learning Processing Example 16-11. Simple color tracking
+// Learning Processing Example 16-12. Simple background removal.
 
 import processing.video.*;
 
 Capture video;
-color trackedColor;
-final float THRESHOLD = 10.0;
+PImage backgroundImage = new PImage();
+final float THRESHOLD = 50.0;
 
 void setup() {
   size(640, 480);
-  trackedColor = color(255, 0, 0);
   video = new Capture(this, width, height, 15);
   video.start();
+  backgroundImage = createImage(video.width, video.height, RGB);
 }
 
 void draw() {
   if (video.available()) video.read();
+  loadPixels();
   video.loadPixels();
+  backgroundImage.loadPixels();
   image(video, 0, 0);
   float closestDistance = 500.0;
   int closestX = 0;
@@ -23,30 +25,26 @@ void draw() {
   for (int x = 0; x < video.width; ++x) {
     for (int y = 0; y < video.height; ++y) {
       int loc = x + y * video.width;
-      color currentColor = video.pixels[loc];
-      float r1 = red(currentColor);
-      float g1 = green(currentColor);
-      float b1 = blue(currentColor);
-      float r2 = red(trackedColor);
-      float g2 = green(trackedColor);
-      float b2 = blue(trackedColor);
+      color fgColor = video.pixels[loc];
+      color bgColor = backgroundImage.pixels[loc];
+      float r1 = red(fgColor);
+      float g1 = green(fgColor);
+      float b1 = blue(fgColor);
+      float r2 = red(bgColor);
+      float g2 = green(bgColor);
+      float b2 = blue(bgColor);
       float distance = dist(r1, g1, b1, r2, g2, b2);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestX = x;
-        closestY = y;
+      if (distance > THRESHOLD) {
+        pixels[loc] = fgColor;
+      } else {
+        pixels[loc] = color(0, 255, 0);
       }
     }
   }
-  if (closestDistance < THRESHOLD) {
-    fill(trackedColor);
-    strokeWeight(4);
-    stroke(0);
-    ellipse(closestX, closestY, 16, 16);
-  }
+  updatePixels();
 }
 
 void mousePressed() {
-  int loc = mouseX + mouseY * video.width;
-  trackedColor = video.pixels[loc];
+  backgroundImage.copy(video, 0, 0, video.width, video.height, 0, 0, video.width, video.height);
+  backgroundImage.updatePixels();
 }
