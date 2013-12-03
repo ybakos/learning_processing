@@ -1,23 +1,27 @@
-// Learning Processing Example 17-1. Using fonts, demonstrating drawback of pre-generated bitmap fonts.
+// Learning Processing Example 17-3. Scrolling headlines
 
-PFont font;
+String[] headlines = {"Snowden reveals NSA evil.", "Malcom X resurrected, hungry."};
+
 PFont laundromat;
+float x;
+int index = 0;
 
 void setup() {
-  size(800, 400);
-  font = loadFont("laundromat1967-48.vlw");
-  laundromat = createFont("Laundromat1967", 12, true);
+  size(400, 200);
+  laundromat = createFont("Laundromat1967", 24, true);
+  x = width;
 }
 
 void draw() {
   background(33);
-  textFont(font, 48);
-  fill(150, 150, 225);
-  text("Program or be Programmed", 10, 100);
-  textFont(font, 12);
-  text("Program or be Programmed", 10, 200);
-  textFont(font, 200);
-  text("Program or be Programmed", 10, 400);
+  fill(200);
   textFont(laundromat);
-  text("Program or be Programmed", 10, 220);
+  textAlign(LEFT);
+  text(headlines[index], x, 180);
+  x = x - 3;
+  float w = textWidth(headlines[index]);
+  if (x < -w) {
+    x = width;
+    index = (index + 1) % headlines.length;
+  }
 }
