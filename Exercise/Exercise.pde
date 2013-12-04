@@ -1,47 +1,43 @@
-// Learning Processing Exercise 17-6. A stock ticker.
+// Learning Processing Exercise 17-7. A video mirror using text sizes for brightness.
 
-final float VERTICAL_LOCATION = 180;
+import processing.video.*;
 
-String[] stockSymbols = { "AAPL 560",
-                          "FCNTX 100",
-                          "FDFFX 35",
-                          "VFINX 166",
-                          "VFORX 28",
-                          "VTTHX 17",
-                          "FEQIX 57",
-                          "AGG 107",
-                          "VNQI 55",
-                          "SCHP 53",
-                          "SCHV 39",
-                          "EFV 55",
-                          "VEA 40",
-                          "VWO 40",
-                          "VTI 93",
-                          "TIP 111"
-                        };
-Stock[] stocks = new Stock[stockSymbols.length];
+final int SCREEN_WIDTH = 1024;
+final int SCREEN_HEIGHT = 768;
+final int FPS = 30;
+final int SCALE = 16;
+final int COLUMNS = SCREEN_WIDTH / SCALE;
+final int ROWS = SCREEN_HEIGHT / SCALE;
+final int MAX_LETTER_SIZE = 40;
+Capture video;
 
-PFont arial;
-
-float tickerWidth = 0.0;
-final float PADDING = 50;
-final float TOTAL_WIDTH_FUDGE_FACTOR = 800;
+String phrase = "Ain't no business like show business.";
+PFont font;
 
 void setup() {
-  size(400, 200);
-  arial = createFont("Arial", 24, true);
-  for (int i = 0; i < stockSymbols.length; ++i) {
-    stocks[i] = new Stock(stockSymbols[i], PADDING * i + tickerWidth + textWidth(stockSymbols[i]), VERTICAL_LOCATION);
-    tickerWidth = tickerWidth + PADDING + stocks[i].getWidth();
-  }
-  tickerWidth += TOTAL_WIDTH_FUDGE_FACTOR;
+  font = createFont("Courier", 20);
+  size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  background(0);
+  video = new Capture(this, COLUMNS, ROWS, FPS);
+  video.start();
 }
 
 void draw() {
-  background(33);
-  fill(200);
-  for (int i = 0; i < stocks.length; ++i) {
-    stocks[i].move(tickerWidth);
-    stocks[i].draw(arial);
+  background(0);
+  if (video.available()) video.read();
+  video.loadPixels();
+  int charCount = 0;
+  for (int i = 0; i < ROWS; ++i) {
+    for (int j = 0; j < COLUMNS; ++j) {
+      int x = j * SCALE;
+      int y = i * SCALE;
+      int loc = j + i * video.width;
+      float brightness = brightness(video.pixels[loc]);
+      textFont(font);
+      fill(200);
+      textSize(MAX_LETTER_SIZE * brightness / 255);
+      text(phrase.charAt(charCount), x, y);
+      charCount = (charCount + 1) % phrase.length();
+    }
   }
 }
