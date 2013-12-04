@@ -1,59 +1,47 @@
-// Learning Processing Exercise 16-7. Finding the average location of motion, indicated with a circle.
+// Learning Processing Exercise 17-6. A stock ticker.
 
-import processing.video.*;
+final float VERTICAL_LOCATION = 180;
 
-Capture video;
-PImage previousFrame;
-final float THRESHOLD = 100.0;
+String[] stockSymbols = { "AAPL 560",
+                          "FCNTX 100",
+                          "FDFFX 35",
+                          "VFINX 166",
+                          "VFORX 28",
+                          "VTTHX 17",
+                          "FEQIX 57",
+                          "AGG 107",
+                          "VNQI 55",
+                          "SCHP 53",
+                          "SCHV 39",
+                          "EFV 55",
+                          "VEA 40",
+                          "VWO 40",
+                          "VTI 93",
+                          "TIP 111"
+                        };
+Stock[] stocks = new Stock[stockSymbols.length];
+
+PFont arial;
+
+float tickerWidth = 0.0;
+final float PADDING = 50;
+final float TOTAL_WIDTH_FUDGE_FACTOR = 800;
 
 void setup() {
-  size(640, 480);
-  video = new Capture(this, width, height, 30);
-  video.start();
-  previousFrame = createImage(video.width, video.height, RGB);
+  size(400, 200);
+  arial = createFont("Arial", 24, true);
+  for (int i = 0; i < stockSymbols.length; ++i) {
+    stocks[i] = new Stock(stockSymbols[i], PADDING * i + tickerWidth + textWidth(stockSymbols[i]), VERTICAL_LOCATION);
+    tickerWidth = tickerWidth + PADDING + stocks[i].getWidth();
+  }
+  tickerWidth += TOTAL_WIDTH_FUDGE_FACTOR;
 }
 
 void draw() {
-  float aveX = 0;
-  float aveY = 0;
-
-  background(0);
-
-  if (video.available()) {
-    previousFrame.copy(video, 0, 0, width, height, 0, 0, width, height);
-    previousFrame.updatePixels();
-    video.read();
+  background(33);
+  fill(200);
+  for (int i = 0; i < stocks.length; ++i) {
+    stocks[i].move(tickerWidth);
+    stocks[i].draw(arial);
   }
-  loadPixels();
-  video.loadPixels();
-  previousFrame.loadPixels();
-
-  image(video, 0, 0);
-
-  float totalX = 0.0;
-  float totalY = 0.0;
-  int totalPixelsMoved = 0;
-  for (int x = 0; x < video.width; ++x) {
-    for (int y = 0; y < video.height; ++y) {
-      int loc = x + y * video.width;
-      color current = video.pixels[loc];
-      color previous = previousFrame.pixels[loc];
-      float r1 = red(current);
-      float g1 = green(current);
-      float b1 = blue(current);
-      float r2 = red(previous);
-      float g2 = green(previous);
-      float b2 = blue(previous);
-      if (dist(r1, g1, b1, r2, g2, b2) > THRESHOLD) {
-        totalX += x;
-        totalY += y;
-        ++totalPixelsMoved;
-      }
-    }
-  }
-  aveX = totalX / totalPixelsMoved;
-  aveY = totalY / totalPixelsMoved;
-  stroke(255, 0, 0);
-  strokeWeight(5);
-  ellipse(aveX, aveY, 200, 200);
 }
