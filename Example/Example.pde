@@ -1,13 +1,11 @@
-// Learning Processing Example 17-7a. My version of boxes along a curve.
-// Shiffman's example immediately incorporates a change in theta according
-// to the width of the box, which will become the width of a letter.
-// This example is more simple, since width is constant and the change in
-// theta are constant.
+// Learning Processing Example 17-7b. Demonstrating why this approach doesn't work,
+// to justify why we need Shiffman's approach of translating then rotating, to
+// preserve letter orientation.
 
 PFont f;
 final float RADIUS = 100;
 final float DIAMETER = RADIUS * 2;
-final float WIDTH = 40;
+final float WIDTH = 20;
 final float HEIGHT = 40;
 
 void setup() {
