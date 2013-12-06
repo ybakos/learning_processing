@@ -1,6 +1,6 @@
-// Learning Processing Example 17-7c. Demonstrating why the following approach doesn't
-// work as intended, to justify why we need Shiffman's approach of translating then
-// rotating, to preserve letter orientation.
+// Learning Processing Example 17-8. My version of characters
+// along a curve. Using two rotations instead of calculating
+// the x and y components as Shiffman does.
 
 PFont font;
 final float RADIUS = 100;
@@ -38,16 +38,18 @@ void drawCircle() {
 }
 
 void drawLetters(String letters) {
-  float theta = 0;
+  float arcLength = 0;
   for (int i = 0; i < letters.length(); ++i) {
     pushMatrix();
+    arcLength += textWidth(letters.charAt(i)) / 2;
+    float theta = arcLength / RADIUS;
     rotate(PI + theta);
     translate(RADIUS, 0);
     rotate(PI / 2);
+    line(0, 0, 0, RADIUS);
     fill(33);
     text(letters.charAt(i), 0, 0);
     popMatrix();
-    float arcLength = textWidth(letters.charAt(i));
-    theta += arcLength / RADIUS;
+    arcLength += textWidth(letters.charAt(i)) / 2;
   }
 }
