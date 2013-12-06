@@ -37,19 +37,17 @@ void drawCircle() {
   ellipse(0, 0, DIAMETER, DIAMETER);
 }
 
-// The baseline of the text is not the arc, and it needs to be.
-// This is why the following doesn't work, and why we need to translate
-// and then rotate.
 void drawLetters(String letters) {
   float theta = 0;
   for (int i = 0; i < letters.length(); ++i) {
-    float arcLength = textWidth(letters.charAt(i));
     pushMatrix();
-    rotate(theta);
+    rotate(PI + theta);
     translate(RADIUS, 0);
+    rotate(PI / 2);
     fill(33);
     text(letters.charAt(i), 0, 0);
     popMatrix();
+    float arcLength = textWidth(letters.charAt(i));
     theta += arcLength / RADIUS;
   }
 }
