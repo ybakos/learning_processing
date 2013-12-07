@@ -1,31 +1,48 @@
-// Learning Processing Exercise 17-10. Scattered text that finds its way home.
+// Learning Processing Exercise 18-3. A sketch that chats with the user.
 
-String phrase = "You are what you eat.";
 PFont font;
 
-Letter[] letters = new Letter[phrase.length()];
+String[] questions = { "Hi, what's your name?",
+                       "What is your favorite food?"
+                     };
 
-final int BASEX = 10;
-final int BASEY = 250;
+String[] responses = { "Nice to meet you, ",
+                       "Mm, I love eating "
+                     };
 
-boolean motion = false;
+String userInput = "";
+String saved = "";
+
+int questionIndex = 0;
+int responseIndex = -1;
+
+final int MARGIN = 25;
 
 void setup() {
-  size(500, 500, P3D);
-  font = createFont("Palatino", 40, true);
-  textFont(font);
-  int x = BASEX;
-  for (int i = 0; i < phrase.length(); ++i) {
-    letters[i] = new Letter(phrase.charAt(i), new Point(x, BASEY, 0));
-    x += textWidth(phrase.charAt(i));
-  }
+  size(300, 200);
+  font = createFont("Helvetica", 20, true);
 }
 
 void draw() {
   background(33);
-  if (mousePressed) motion = true;
-  for (int i = 0; i < letters.length; ++i) {
-    letters[i].move(motion);
-    letters[i].draw();
+  textFont(font);
+  fill(200);
+  if (questionIndex < questions.length) {
+    text(questions[questionIndex], MARGIN, 40);
+  }
+  text(userInput, MARGIN, 90);
+  if (responseIndex >= 0) {
+    text(responses[responseIndex] + saved, MARGIN, 130);
+  }
+}
+
+void keyPressed() {
+  if (key == '\n') {
+    saved = userInput;
+    userInput = "";
+    ++responseIndex;
+    ++questionIndex;
+  } else {
+    userInput += key;
   }
 }
