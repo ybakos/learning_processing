@@ -5,23 +5,27 @@ PFont font;
 
 Letter[] letters = new Letter[phrase.length()];
 
+final int BASEX = 10;
+final int BASEY = 250;
+
+boolean motion = false;
+
 void setup() {
-  size(500, 200);
+  size(500, 500, P3D);
   font = createFont("Palatino", 40, true);
   textFont(font);
-  int x = 10;
+  int x = BASEX;
   for (int i = 0; i < phrase.length(); ++i) {
-    letters[i] = new Letter(x, 100, phrase.charAt(i));
+    letters[i] = new Letter(phrase.charAt(i), new Point(x, BASEY, 0));
     x += textWidth(phrase.charAt(i));
   }
 }
 
 void draw() {
-  background(0);
-  background(200);
+  background(33);
+  if (mousePressed) motion = true;
   for (int i = 0; i < letters.length; ++i) {
+    letters[i].move(motion);
     letters[i].draw();
-    if (mousePressed) letters[i].shake();
-    else letters[i].reset();
   }
 }
