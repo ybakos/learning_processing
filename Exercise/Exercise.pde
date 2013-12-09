@@ -1,48 +1,47 @@
-// Learning Processing Exercise 18-3. A sketch that chats with the user.
+// Learning Processing Exercise 18-8 & 18-9. Parsing Yahoo weather data and word of the day.
 
+WeatherGrabber yahooWeather;
 PFont font;
-
-String[] questions = { "Hi, what's your name?",
-                       "What is your favorite food?"
-                     };
-
-String[] responses = { "Nice to meet you, ",
-                       "Mm, I love eating "
-                     };
-
-String userInput = "";
-String saved = "";
-
-int questionIndex = 0;
-int responseIndex = -1;
-
-final int MARGIN = 25;
+String[] zips = {"75208", "45431", "80201"};
+int zipIndex = 0;
 
 void setup() {
-  size(300, 200);
-  font = createFont("Helvetica", 20, true);
+  String[] lines = loadStrings("http://xml.weather.yahoo.com/forecastrss?p=75208");
+  for (String line : lines) {
+    println(line);
+  }
+  size(400, 400);
+  yahooWeather = new WeatherGrabber(zips[zipIndex]);
+  yahooWeather.requestWeather();
+  font = createFont("Helvetica", 32, true);
 }
 
 void draw() {
   background(33);
   textFont(font);
   fill(200);
-  if (questionIndex < questions.length) {
-    text(questions[questionIndex], MARGIN, 40);
-  }
-  text(userInput, MARGIN, 90);
-  if (responseIndex >= 0) {
-    text(responses[responseIndex] + saved, MARGIN, 130);
-  }
+  String weather = yahooWeather.getWeather();
+  int temperature = yahooWeather.getTemperature();
+  int tomorrowHigh = yahooWeather.getTomorrowHigh();
+  int tomorrowLow = yahooWeather.getTomorrowLow();
+
+  text("Weather in " + zips[zipIndex], 10, 40);
+  text(weather, 10, 90);
+
+  stroke(0);
+  fill(150);
+  rect(10, 120, temperature * 2, 20);
+  text(temperature + " degrees", temperature * 2 + 20, 140);
+
+  text("Tomorrow's high: " + tomorrowHigh, 10, 180);
+  text("Tomorrow's low: " + tomorrowLow, 10, 220);
+
+  textSize(14);
+  text("Click to change zip", 10, height - 20);
 }
 
-void keyPressed() {
-  if (key == '\n') {
-    saved = userInput;
-    userInput = "";
-    ++responseIndex;
-    ++questionIndex;
-  } else {
-    userInput += key;
-  }
+void mousePressed() {
+  zipIndex = (zipIndex + 1) % zips.length;
+  yahooWeather.setZip(zips[zipIndex]);
+  yahooWeather.requestWeather();
 }
