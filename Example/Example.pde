@@ -1,36 +1,35 @@
-// Learning Processing Example 18-4. Loading and saving data to/from a text file.
+// Learning Processing Example 18-5. Manually parsing Yahoo XML weather data.
 
-Bubble[] bubbles;
+WeatherGrabber yahooWeather;
+PFont font;
+String[] zips = {"75208", "45431", "80201"};
+int zipIndex = 0;
 
 void setup() {
   size(400, 400);
-  String[] data = loadStrings("data.txt");
-  bubbles = new Bubble[data.length];
-  for (int i = 0; i < bubbles.length; ++i) {
-    float[] values = float(split(data[i], ","));
-    bubbles[i] = new Bubble(values[0], values[1], values[2]);
-  }
+  yahooWeather = new WeatherGrabber(zips[zipIndex]);
+  yahooWeather.requestWeather();
+  font = createFont("Helvetica", 32, true);
 }
 
 void draw() {
-  background(200);
-  for (int i = 0; i < bubbles.length; ++i) {
-    bubbles[i].display();
-    bubbles[i].drift();
-    if (bubbles[i].rollover(mouseX, mouseY)) {
-      bubbles[i].change();
-    }
-  }
+  background(33);
+  textFont(font);
+  fill(200);
+  String weather = yahooWeather.getWeather();
+  int temperature = yahooWeather.getTemperature();
+  text(zips[zipIndex], 10, 160);
+  text(weather, 10, 90);
+  text(temperature, 10, 40);
+  textSize(14);
+  text("Click to change zip", 10, height - 20);
+  stroke(0);
+  fill(150);
+  rect(10, 50, temperature * 2, 20);
 }
 
 void mousePressed() {
-  saveData();
-}
-
-void saveData() {
-  String[] data = new String[bubbles.length];
-  for (int i = 0; i < bubbles.length; ++i) {
-    data[i] = bubbles[i].r + "," + bubbles[i].g + "," + bubbles[i].diameter;
-  }
-  saveStrings("data/data.txt", data);
+  zipIndex = (zipIndex + 1) % zips.length;
+  yahooWeather.setZip(zips[zipIndex]);
+  yahooWeather.requestWeather();
 }
