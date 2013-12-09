@@ -5,6 +5,8 @@ PFont font;
 String[] zips = {"75208", "45431", "80201"};
 int zipIndex = 0;
 
+WordGrabber merriamWebster;
+
 void setup() {
   String[] lines = loadStrings("http://xml.weather.yahoo.com/forecastrss?p=75208");
   for (String line : lines) {
@@ -13,6 +15,8 @@ void setup() {
   size(400, 400);
   yahooWeather = new WeatherGrabber(zips[zipIndex]);
   yahooWeather.requestWeather();
+  merriamWebster = new WordGrabber();
+  merriamWebster.requestWord();
   font = createFont("Helvetica", 32, true);
 }
 
@@ -35,6 +39,8 @@ void draw() {
 
   text("Tomorrow's high: " + tomorrowHigh, 10, 180);
   text("Tomorrow's low: " + tomorrowLow, 10, 220);
+
+  text("Word of the day: " + merriamWebster.word, 10, 280);
 
   textSize(14);
   text("Click to change zip", 10, height - 20);
