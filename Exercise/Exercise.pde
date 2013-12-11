@@ -1,53 +1,41 @@
-// Learning Processing Exercise 18-8 & 18-9. Parsing Yahoo weather data and word of the day.
+// Learning Processing Exercise 18-10. Counting letter frequency.
 
-WeatherGrabber yahooWeather;
 PFont font;
-String[] zips = {"75208", "45431", "80201"};
-int zipIndex = 0;
+String text;
+final String URL = "http://www.gutenberg.org/files/44404/44404-0.txt";
 
-WordGrabber merriamWebster;
+int[] frequencies = new int[26];
+
+int maxFrequency = 0;
 
 void setup() {
-  String[] lines = loadStrings("http://xml.weather.yahoo.com/forecastrss?p=75208");
-  for (String line : lines) {
-    println(line);
-  }
   size(400, 400);
-  yahooWeather = new WeatherGrabber(zips[zipIndex]);
-  yahooWeather.requestWeather();
-  merriamWebster = new WordGrabber();
-  merriamWebster.requestWord();
-  font = createFont("Helvetica", 32, true);
+  font = createFont("Georgia", 12, true);
+  String text = join(loadStrings(URL), "").toLowerCase();
+  for (int i = 0; i < text.length(); ++i) {
+    try {
+      if (Character.isAlphabetic(text.charAt(i))) {
+        frequencies[text.charAt(i) - 'a'] += 1;
+        if (frequencies[text.charAt(i) - 'a'] > maxFrequency) {
+          maxFrequency = frequencies[text.charAt(i) - 'a'];
+        }
+      }
+    } catch (Exception e) { // unexpected characers
+      println(text.charAt(i));
+    }
+  }
 }
 
 void draw() {
   background(33);
   textFont(font);
-  fill(200);
-  String weather = yahooWeather.getWeather();
-  int temperature = yahooWeather.getTemperature();
-  int tomorrowHigh = yahooWeather.getTomorrowHigh();
-  int tomorrowLow = yahooWeather.getTomorrowLow();
-
-  text("Weather in " + zips[zipIndex], 10, 40);
-  text(weather, 10, 90);
-
-  stroke(0);
-  fill(150);
-  rect(10, 120, temperature * 2, 20);
-  text(temperature + " degrees", temperature * 2 + 20, 140);
-
-  text("Tomorrow's high: " + tomorrowHigh, 10, 180);
-  text("Tomorrow's low: " + tomorrowLow, 10, 220);
-
-  text("Word of the day: " + merriamWebster.word, 10, 280);
-
-  textSize(14);
-  text("Click to change zip", 10, height - 20);
-}
-
-void mousePressed() {
-  zipIndex = (zipIndex + 1) % zips.length;
-  yahooWeather.setZip(zips[zipIndex]);
-  yahooWeather.requestWeather();
+  for (int i = 0; i < frequencies.length; ++i) {
+    stroke(255);
+    fill(200);
+    rect(0, i * (height / frequencies.length), (float(frequencies[i]) / maxFrequency) * (width - textWidth(String.valueOf(maxFrequency))), height / frequencies.length);
+    fill(100);
+    text((char)(i + 'a'), 2, (height / frequencies.length) - 3 + i * (height / frequencies.length));
+    fill(200);
+    text(frequencies[i], 1 + (float(frequencies[i]) / maxFrequency) * (width - textWidth(String.valueOf(maxFrequency))), (height / frequencies.length) - 3 + i * (height / frequencies.length));
+  }
 }
