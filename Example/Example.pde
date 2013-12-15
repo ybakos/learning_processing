@@ -1,44 +1,25 @@
-// Learning Processing Example 18-7mine. Making asynchronous requests with Processing's thread() function
-// instead of SimpleML.
+// Learning Processing Example 18-9new. Using the Processing XML API.
 
-Timer timer = new Timer(5000);
-
-final String URL = "http://techmeme.com";
-String html = "";
-int counter = 0;
-int back = 255;
+Bubble[] bubbles;
 
 void setup() {
   size(400, 400);
-  thread("retrieveData");
-  timer.start();
+  XML xml = loadXML("bubbles.xml");
+  XML[] children = xml.getChildren("bubble");
+  bubbles = new Bubble[children.length];
+  for (int i = 0; i < children.length; ++i) {
+    XML diameterElement = children[i].getChild("diameter");
+    XML colorElement = children[i].getChild("color");
+    bubbles[i] = new Bubble(colorElement.getInt("red"),
+                            colorElement.getInt("green"),
+                            diameterElement.getIntContent());
+  }
 }
 
 void draw() {
-  background(back);
-  if (timer.isFinished()) {
-    thread("retrieveData");
-    println("Requesting...");
-    timer.start();
+  background(200);
+  for (int i = 0; i < bubbles.length; ++i) {
+    bubbles[i].display();
+    bubbles[i].drift();
   }
-
-  for (int i = 0; i < width; ++i) {
-    if (i < html.length()) {
-      int c = html.charAt(i);
-      stroke(c, 150);
-      line(i, 0, i, height);
-    }
-  }
-
-  fill(255);
-  noStroke();
-  rect(counter, 0, 10, height);
-  counter = (counter + 1) % width;
-  back = constrain(back - 1, 0, 255);
-}
-
-void retrieveData() {
-  html = join(loadStrings(URL), "");
-  back = 255;
-  println("Request complete.");
 }
