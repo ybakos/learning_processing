@@ -1,41 +1,26 @@
-// Learning Processing Exercise 18-10. Counting letter frequency.
+// Learning Processing Exercise 18-13. Using the XML api.
 
-PFont font;
-String text;
-final String URL = "http://www.gutenberg.org/files/44404/44404-0.txt";
-
-int[] frequencies = new int[26];
-
-int maxFrequency = 0;
+Blob[] blobs;
 
 void setup() {
   size(400, 400);
-  font = createFont("Georgia", 12, true);
-  String text = join(loadStrings(URL), "").toLowerCase();
-  for (int i = 0; i < text.length(); ++i) {
-    try {
-      if (Character.isAlphabetic(text.charAt(i))) {
-        frequencies[text.charAt(i) - 'a'] += 1;
-        if (frequencies[text.charAt(i) - 'a'] > maxFrequency) {
-          maxFrequency = frequencies[text.charAt(i) - 'a'];
-        }
-      }
-    } catch (Exception e) { // unexpected characers
-      println(text.charAt(i));
-    }
+  XML xml = loadXML("blobs.xml");
+  XML[] children = xml.getChildren("blob");
+  blobs = new Blob[children.length];
+  for (int i = 0; i < children.length; ++i) {
+    blobs[i] = new Blob(children[i].getChild("location").getFloat("x"),
+                        children[i].getChild("location").getFloat("y"),
+                        children[i].getChild("speed").getFloat("x"),
+                        children[i].getChild("speed").getFloat("y"),
+                        children[i].getChild("size").getInt("w"),
+                        children[i].getChild("size").getInt("h"));
   }
 }
 
 void draw() {
-  background(33);
-  textFont(font);
-  for (int i = 0; i < frequencies.length; ++i) {
-    stroke(255);
-    fill(200);
-    rect(0, i * (height / frequencies.length), (float(frequencies[i]) / maxFrequency) * (width - textWidth(String.valueOf(maxFrequency))), height / frequencies.length);
-    fill(100);
-    text((char)(i + 'a'), 2, (height / frequencies.length) - 3 + i * (height / frequencies.length));
-    fill(200);
-    text(frequencies[i], 1 + (float(frequencies[i]) / maxFrequency) * (width - textWidth(String.valueOf(maxFrequency))), (height / frequencies.length) - 3 + i * (height / frequencies.length));
+  background(0);
+  for (int i = 0; i < blobs.length; ++i) {
+    blobs[i].move();
+    blobs[i].draw();
   }
 }
