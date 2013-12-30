@@ -1,13 +1,11 @@
-// Learning Processing Example 19-1. Simple server.
+// Learning Processing Example 19-3. Broadcasting server.
 
 import processing.net.*;
 
 Server server;
 
-float newMessageColor = 255;
-
 PFont font;
-String incomingMessage = "";
+int data = 0;
 
 void setup() {
   size(400, 400);
@@ -16,25 +14,15 @@ void setup() {
 }
 
 void draw() {
-  background(newMessageColor);
-  newMessageColor = constrain(newMessageColor + 0.3, 0, 255);
+  background(200);
   textFont(font);
   textAlign(CENTER);
-  fill(255);
-  text(incomingMessage, width / 2, height / 2);
-
-  Client client = server.available();
-  if (client != null) {
-    incomingMessage = client.readString();
-    incomingMessage = incomingMessage.trim();
-    println("Client says: " + incomingMessage);
-    server.write("How does " + incomingMessage + " make you feel?\n");
-    newMessageColor = 0;
-  }
+  fill(0);
+  text(data, width / 2, height / 2);
+  server.write(data);
+  data = (data + int(random(-2, 4))) % 256; // Increase and decrease a little, reset if you hit 256.
 }
 
 void serverEvent(Server server, Client client) {
-  incomingMessage = "A new client has connected: " + client.ip();
-  println(incomingMessage);
-  newMessageColor = 0;
+  println("New client: " + client.ip());
 }
