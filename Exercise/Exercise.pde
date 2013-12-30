@@ -1,26 +1,26 @@
-// Learning Processing Exercise 18-13. Using the XML api.
+// Learning Processing Exercise 19-3. Simple client, using server data for location.
 
-Blob[] blobs;
+import processing.net.*;
+
+Client client;
+
+int data = 0;
+int dataMax = 0;
 
 void setup() {
   size(400, 400);
-  XML xml = loadXML("blobs.xml");
-  XML[] children = xml.getChildren("blob");
-  blobs = new Blob[children.length];
-  for (int i = 0; i < children.length; ++i) {
-    blobs[i] = new Blob(children[i].getChild("location").getFloat("x"),
-                        children[i].getChild("location").getFloat("y"),
-                        children[i].getChild("speed").getFloat("x"),
-                        children[i].getChild("speed").getFloat("y"),
-                        children[i].getChild("size").getInt("w"),
-                        children[i].getChild("size").getInt("h"));
-  }
+  client = new Client(this, "localhost", 5204);
 }
 
 void draw() {
-  background(0);
-  for (int i = 0; i < blobs.length; ++i) {
-    blobs[i].move();
-    blobs[i].draw();
+  if (client.available() > 0) {
+    data = client.read();
   }
+  background(200);
+  stroke(0);
+  fill(175);
+  dataMax = max(data, dataMax);
+  int x = (int)map(data, 0, dataMax, 0, width);
+  rectMode(CENTER);
+  rect(x, width / 2 + x % 10, 100, 100);
 }
