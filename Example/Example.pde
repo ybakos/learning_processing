@@ -1,37 +1,37 @@
-// Learning Processing Example 19-6. Multi-user server.
+// Learning Processing Example 20-4mine. Audio manipulation with minim.
 
-import processing.net.*;
+import ddf.minim.*;
 
-Server server;
+final String SOUND_FILE_NAME = "song.mp3";
+final int DB_LIMIT_LOW = -80;
+final int DB_LIMIT_HIGH = 0;
 
-PFont font;
-String incomingMessage = "";
-final char MESSAGE_END = '*';
+Minim minim;
+AudioPlayer tone;
 
 void setup() {
   size(400, 400);
-  server = new Server(this, 5204);
-  font = createFont("Helvetica", 24, true);
+  minim = new Minim(this);
+  tone = minim.loadFile(SOUND_FILE_NAME);
+  tone.printControls();
+  tone.loop();
 }
 
 void draw() {
-  background(200);
-  textFont(font);
-  textAlign(CENTER);
-  fill(33);
-  Client client = server.available();
-  if (client != null) {
-    incomingMessage = client.readStringUntil(MESSAGE_END);
-    println("Client: " + incomingMessage);
-    if (incomingMessage != null) {
-      text(incomingMessage, width / 2, height / 2);
-      server.write(incomingMessage); // broadcast
-    } else {
-      println("NULL: " + client.readString());
-    }
-  }
+  if (tone.isPlaying()) background(200);
+  else background(33);
+
+  float gain = map(1 - (float(mouseY) / height), 0, 1, DB_LIMIT_LOW, DB_LIMIT_HIGH);
+  tone.setGain(gain);
+  float balance = map(float(mouseX) / width, 0, 1, -1, 1);
+  tone.setBalance(balance);
+  text("Gain: " + gain, 50, 50);
+  rect(0, height, 50, -(height - mouseY));
+  text("Balance: " + balance, 50, 100);
+  rect(width / 2, height - 50, mouseX - width / 2, 50);
 }
 
-void serverEvent(Server server, Client client) {
-  println("New client: " + client.ip());
+void mousePressed() {
+  tone.rewind();
+  tone.play();
 }
