@@ -1,43 +1,37 @@
-// Learning Processing Exercise 19-4. Client for multi-user whiteboard, with color.
-// Protocol format: mouseX,mouseY,RED,GREEN,BLUE*
+// Learning Processing Exercise 20-4. Audio manipulation with minim.
 
-import processing.net.*;
+import ddf.minim.*;
 
-final String HOSTNAME = "localhost";
-final int PORT = 5204;
+final String SOUND_FILE_NAME = "song.mp3";
+final int DB_LIMIT_LOW = -80;
+final int DB_LIMIT_HIGH = 0;
 
-Client client;
-final int RED = 200;
-final int GREEN = 255;
-final int BLUE = 200;
-final char MESSAGE_END = '*';
+Minim minim;
+AudioPlayer tone;
 
 void setup() {
   size(400, 400);
-  client = new Client(this, HOSTNAME, PORT);
-  background(200);
+  minim = new Minim(this);
+  tone = minim.loadFile(SOUND_FILE_NAME);
+  tone.printControls();
+  tone.loop();
 }
 
 void draw() {
-  if (client.available() > 0) {
-    String data = client.readStringUntil(MESSAGE_END);
-    println("Received: " + data);
-    if (data != null) {
-      int[] tokens = int(splitTokens(data, ",*"));
-      fill(tokens[2], tokens[3], tokens[4], 100);
-      noStroke();
-      ellipse(tokens[0], tokens[1], 16, 16);
-    }
-  }
+  if (tone.isPlaying()) background(200);
+  else background(33);
+
+  float gain = map(1 - (float(mouseY) / height), 0, 1, DB_LIMIT_LOW, DB_LIMIT_HIGH);
+  tone.setGain(gain);
+  float balance = map(float(mouseX) / width, 0, 1, -1, 1);
+  tone.setBalance(balance);
+  text("Gain: " + gain, 50, 50);
+  rect(0, height, 50, -(height - mouseY));
+  text("Balance: " + balance, 50, 100);
+  rect(width / 2, height - 50, mouseX - width / 2, 50);
 }
 
-void mouseDragged() {
-  String message = mouseX + "," + mouseY + "," + red + "," + green + "," + blue + MESSAGE_END;
-  client.write(message);
-  println("Sending: " + message);
-}
-
-// Establish a new connection to the server.
-void keyPressed() {
-  client = new Client(this, HOSTNAME, PORT);
+void mousePressed() {
+  tone.rewind();
+  tone.play();
 }
