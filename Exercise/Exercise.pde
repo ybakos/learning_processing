@@ -1,37 +1,45 @@
-// Learning Processing Exercise 20-4. Audio manipulation with minim.
+// Learning Processing Exercise 20-5. Displaying both left and right amplitudes.
 
 import ddf.minim.*;
 
-final String SOUND_FILE_NAME = "song.mp3";
 final int DB_LIMIT_LOW = -80;
 final int DB_LIMIT_HIGH = 0;
 
 Minim minim;
-AudioPlayer tone;
+//AudioInput input;
+AudioPlayer input;
 
 void setup() {
-  size(400, 400);
   minim = new Minim(this);
-  tone = minim.loadFile(SOUND_FILE_NAME);
-  tone.printControls();
-  tone.loop();
+//  input = minim.getLineIn();
+  input = minim.loadFile("song.mp3");
+  size(input.bufferSize(), 200); // As wide as the buffer
+//  input.enableMonitoring();
+  input.printControls();
+  input.play();
+  background(33);
 }
 
 void draw() {
-  if (tone.isPlaying()) background(200);
-  else background(33);
-
-  float gain = map(1 - (float(mouseY) / height), 0, 1, DB_LIMIT_LOW, DB_LIMIT_HIGH);
-  tone.setGain(gain);
-  float balance = map(float(mouseX) / width, 0, 1, -1, 1);
-  tone.setBalance(balance);
-  text("Gain: " + gain, 50, 50);
-  rect(0, height, 50, -(height - mouseY));
-  text("Balance: " + balance, 50, 100);
-  rect(width / 2, height - 50, mouseX - width / 2, 50);
+  // background(33);
+  fill(33, 10);
+  rect(-1, -1, width + 1, height + 1);
+  fill(255);
+  stroke(200);
+  float[] samples = input.mix.toArray();
+  for (int i = 0; i < samples.length - 1; i++) {
+    line(i, 50 + samples[i] * 50, i + 1, 50 + samples[i + 1] * 50);
+  }
+  float leftLevel = input.left.level();
+  ellipse(width * 0.33, height / 2, leftLevel * height, leftLevel * height);
+  float rightLevel = input.right.level();
+  ellipse(width * 0.66, height / 2, rightLevel * height, rightLevel * height);
 }
 
 void mousePressed() {
-  tone.rewind();
-  tone.play();
+  noLoop();
+}
+
+void mouseReleased() {
+  loop();
 }
