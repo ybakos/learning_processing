@@ -1,17 +1,24 @@
-// Learning Processing Example 21-2. Seeing the graphics and generating a pdf with begin/endRecord.
+// Learning Processing Example 21-3. Rendering a PDF from a frame during the draw loop.
 
 import processing.pdf.*;
 
-int x = 0;
+float x = 0;
+float y = 0;
 
 void setup() {
   size(400, 400);
   beginRecord(PDF, "example.pdf");
+  background(200);
 }
 
 void draw() {
-  background(100, 200, 150);
-  ellipse(++x, height / 2, 100, 100);
+  float newX = constrain(x + random(-20, 20), 0, width);
+  float newY = constrain(y + random(-20, 20), 0, height);
+  stroke(frameCount % 255, frameCount * 3 % 255, frameCount * 11 % 255, 100);
+  strokeWeight(4);
+  line(x, y, newX, newY);
+  x = newX;
+  y = newY;
 }
 
 void mousePressed() {
