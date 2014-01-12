@@ -1,29 +1,28 @@
-// Learning Processing Example 21-4.5mine. Generating multiple images.
+// Learning Processing Example 23-4. Simple particle system.
 
-float xTheta = 0.0;
-float yTheta = 0.0;
+import java.awt.Rectangle;
 
-boolean saveImage = false;
+ArrayList<Particle> particles;
+Rectangle blackHole;
 
 void setup() {
-  size(400, 400, P3D);
+  size(400, 400);
+  blackHole = new Rectangle(50, 150, 100, 25);
+  particles = new ArrayList<Particle>();
 }
 
 void draw() {
-  background(255);
-  fill(33);
-  text(frameCount, 50, 50);
-  noFill();
-  translate(width / 2, height / 2);
-  rotateX(xTheta += 0.001);
-  rotateY(yTheta += 0.003);
-  box(100);
-  if (saveImage) {
-    saveFrame("example-##.png");
-    saveImage = false;
+  background(220);
+  stroke(33);
+  fill(180);
+  rect(blackHole.x, blackHole.y, blackHole.width, blackHole.height);
+  particles.add(new Particle(mouseX, mouseY));
+  for (int i = particles.size() - 1; i >= 0; --i) {
+    Particle p = particles.get(i);
+    p.run();
+    p.gravity();
+    p.display();
+    if (blackHole.contains(p.x, p.y)) p.stop();
+    if (p.finished()) particles.remove(i);
   }
-}
-
-void mousePressed() {
-  saveImage = true;
 }
